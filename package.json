@@ -1,0 +1,34 @@
+{
+  "name": "bud-dy",
+  "version": "1.0.0",
+  "description": "Houseplant & gardening PWA",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js",
+    "scss": "node-sass --watch scss -o public/css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peppybojagger/bud-dy.git"
+  },
+  "keywords": [
+    "houseplants",
+    "gardening"
+  ],
+  "author": "Sarah Martin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peppybojagger/bud-dy/issues"
+  },
+  "homepage": "https://github.com/peppybojagger/bud-dy#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "node-sass": "^5.0.0"
+  }
+}
