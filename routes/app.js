@@ -1,17 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.render('index', {
-        pageTitle: 'Bud-dy',
-        path: '/'
-    });
-});
+const appController = require('../controllers/app');
 
-router.use((req, res, next) => {
-    res.status(404).render('404', {
-        pageTitle: '404',
-    });
-});
+router.get('/', appController.getIndex);
+
+router.use(appController.get404Page);
 
 module.exports = router;
