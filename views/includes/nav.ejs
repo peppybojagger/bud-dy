@@ -1,9 +1,12 @@
 <header>
     <nav class="main-header_nav">
-        <ul class="main-header_list">
-            <li class="main-header_list-item"><a class="<%= path === '/' ? 'active' : '' %>" href="/">HOME</a></li>
-            <li class="main-header_list-item"><a class="<%= path === '/plants' ? 'active' : '' %>" href="/plants">PLANTS</a></li>
-            <li class="main-header_list-item"><a class="<%= path === '/account' ? 'active' : '' %>" href="/account">ACCOUNT</a></li>
-        </ul>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo right">BUD-DY</a>
+            <ul id="nav-mobile" class="left main-header_list">
+                <li class="main-header_list-item"><a class="<%= path === '/' ? 'active' : '' %>" href="/">HOME</a></li>
+                <li class="main-header_list-item"><a class="<%= path === '/plants' ? 'active' : '' %>" href="/plants">PLANTS</a></li>
+                <li class="main-header_list-item"><a class="<%= path === '/account' ? 'active' : '' %>" href="/account/home">ACCOUNT</a></li>
+            </ul>
+          </div>
     </nav>
 </header>

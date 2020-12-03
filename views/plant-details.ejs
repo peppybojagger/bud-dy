@@ -1,0 +1,23 @@
+<%- include('includes/head.ejs') %>
+<%- include('includes/nav.ejs') %>
+<main>
+  <div class="container">
+      <div class="row">
+        <h1><%= plant.common_name %></h1>
+        <hr>
+      </div>
+      <div class="row">
+        <img src="<%= plant.image_url %>" alt="<%= plant.common_name %>">
+      </div>
+      <div class="row">
+          <p><%= plant.scientific_name %></p>
+      </div>
+      <div class="row">
+        <form action="/account/home" method="POST">
+          <button class="btn" type="submit">Add To My Plants</button>
+          <input type="hidden" name="plantID" value="<%= plant.id %>">
+        </form>
+      </div>
+  </div>
+</main>
+<%- include('includes/end.ejs') %>

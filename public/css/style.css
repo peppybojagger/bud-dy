@@ -1,17 +1,4 @@
-@use '_colors';
-@use '_layout';
-@use '_fonts';
-@use '_forms';
-
+@use '../node_modules/materialize-css/sass/materialize.scss';
 body {
   font: 100% Helvetica, sans-serif;
-  color: #333; 
-}
-
-h1 {
-  color: blue; 
-}
-
-a.active {
-  color: yellow;
-}
+  color: #333; }

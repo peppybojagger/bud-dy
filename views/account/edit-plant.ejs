@@ -1,0 +1,26 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/nav.ejs') %>
+<main>
+    <div class="container">
+        <div class="row">
+            <h1>Edit</h1>
+            <form class="col s12" action="/account/home" method="POST">
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input type="text" label="name" name="plantName" placeholder="Plant Name" value="<%= plant.plantName %>">
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="text" label="img" name="imgURL" placeholder="Plant Image" value="<%= plant.imgURL %>">
+                    </div>
+                    <div class="input-field col s4">
+                        <input type="text" label="description" name="desc" placeholder="Plant Description" value="<%= plant.desc %>">
+                    </div>
+                    <div class="col s12">
+                        <button class="waves-effect waves-light btn" type="submit">UPDATE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+<%- include('../includes/end.ejs') %>
