@@ -9,51 +9,33 @@
                     <input type="text" name="searchPlant" placeholder="enter plant">
                 </form>
             </div>
-            <form class="col s12" action="/plants" method="POST">
-                <div class="row">
-                    <div class="input-field col s4">
-                        <input type="text" label="name" name="plantName" placeholder="Plant Name">
-                    </div>
-                    <div class="input-field col s4">
-                        <input type="text" label="img" name="imgURL" placeholder="Plant Image URL">
-                    </div>
-                    <div class="input-field col s4">
-                        <input type="text" label="description" name="desc" placeholder="Plant Description">
-                    </div>
-                    <div class="col s12">
-                        <button class="waves-effect waves-light btn" type="submit">ADD PLANT</button>
-                    </div>
-                </div>
-            </form>
         </div>
     </div>
     <div class="container">
         <div class="row">
             <h2>Plants:</h2>
-            <% if (hasPlants) { %>
-                <% for (let plant of plants) { %>
+            <% for(var i=0; i < data.length; i++) { %>
             <div class="col s12 m4">
-                    <div class="card">
-                        <div class="card-image waves-effect waves-block waves-light">
-                          <img class="activator" src="<%= plant.image_url %>">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title activator grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">MORE</i></span>
-                        </div>
-                        <div class="card-reveal">
-                          <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">CLOSE</i></span>
-                          <p><%= plant.scientific_name %></p>
-                          <p><a href="/plant-details/<%= plant.id %>">Plant Details</a></p>
-                        </div>
+                <div class="card">
+                    <div class="card-image waves-effect waves-block waves-light">
+                        <img class="activator" src="<%= data[i].image_url %>">
                     </div>
-            </div>
-            <% } %>
-            <% } else { %>
-                <div class="row">
-                    <div class="col s12">
-                        <p>No Plants Added!</p>
+                    <div class="card-content">
+                        <% if (data[i].common_name !== null) { %>
+                            <span class="card-title activator grey-text text-darken-4"><%= data[i].common_name %></span>
+                        <% } else { %>
+                            <span class="card-title activator grey-text text-darken-4"><%= data[i].scientific_name %></span>
+                        <% }%>
+                        <i class="material-icons right">MORE</i>
+                        </span>
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4"><%= data[i].common_name %><i class="material-icons right">CLOSE</i></span>
+                        <p><%= data[i].scientific_name %></p>
+                        <p><a href="/plant-details/<%= data[i].slug %>">Plant Details</a></p>
                     </div>
                 </div>
+            </div>
             <% } %>
         </div>
     </div>

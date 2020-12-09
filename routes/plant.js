@@ -3,15 +3,16 @@ const router = express.Router();
 
 const plantsController = require('../controllers/plant');
 
-router.get('/plant-details/:plantID', plantsController.getPlantDetails);
 
 router.get('/plants', plantsController.getPlantsPage);
 
-// router.post('/plants', plantsController.postAddPlant);
-
 router.post('/plants', plantsController.postFindPlant);
 
+router.get('/plant-details/:slug', plantsController.getPlantDetails);
+
 router.get('/account/home', plantsController.getAccountPage);
+
+router.post('/account/home', plantsController.postAddPlant);
 
 router.post('/account/home', plantsController.postMyPlant);
 

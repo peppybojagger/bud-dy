@@ -4,6 +4,22 @@
         <div class="container">
             <div class="row">
                 <h1>Account Page</h1>
+                <form class="col s12" action="/account/home" method="POST">
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input type="text" label="name" name="plantName" placeholder="Plant Name">
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" label="img" name="imgURL" placeholder="Plant Image URL">
+                        </div>
+                        <div class="input-field col s4">
+                            <input type="text" label="description" name="desc" placeholder="Plant Description">
+                        </div>
+                        <div class="col s12">
+                            <button class="waves-effect waves-light btn" type="submit">ADD PLANT</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </main>

@@ -17,28 +17,27 @@ const getPlantsFile = (cb) => {
     });
 };
 
+const plants = [];
+
 module.exports = class Plant {
-    constructor(common_name, image_url, scientific_name, id) {
+    constructor(common_name, image_url, scientific_name, id, slug) {
         this.common_name = common_name;
         this.image_url = image_url;
         this.scientific_name = scientific_name;
         this.id = id;
+        this.slug = slug;
     }
     save() {
-        getPlantsFile(plants => {
-            plants.push(this);
-            fs.writeFile(dataPath, JSON.stringify(plants), (err) => {
-                console.log(err);
-            });
-        });
+        plants.push(this);
     }
-    static fetchAll(cb) {
-        getPlantsFile(cb);
-    }
-    static findById(id, cb) {
-        getPlantsFile(plants => {
-            const plant = plants.find(p => p.id === id);
-            cb(plant);
-        });
+    static fetchSlug() {
+        if (plants) {
+            for(var i=0; i < plants.length; i++) {
+                const slug = plants[i].slug;
+                return slug;
+            }
+        } else {
+            console.log('No Plants');
+        }
     }
 }
