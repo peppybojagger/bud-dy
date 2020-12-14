@@ -1,105 +1,112 @@
 const Plant = require('../models/plant');
-const Account = require('../models/account');
 const fetch = require('node-fetch');
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-
-const key = process.env.API_KEY;
-
-exports.getPlantsPage = async (req, res, next) => {
-    const urlAPI = `https://trefle.io/api/v1/plants${key}`;
+async function getAPI(st, q) {
+    const key = process.env.API_KEY;
+    let urlAPI;
+    const page = 1;
+    if (st === 'search') {
+        const plantName = q;
+        urlAPI = `https://trefle.io/api/v1/plants/search${key}&q=${plantName}&page=${page}`;
+    } else if (st === 'details') {
+        const slug = q;
+        urlAPI = `https://trefle.io/api/v1/plants/${slug}${key}`;
+    } else {
+        urlAPI = `https://trefle.io/api/v1/plants${key}&page=${page}`;
+        console.log(urlAPI);
+    }
     const response = await fetch(urlAPI);
 	const json = await response.json();
-	const data = json.data;
-    res.render('plants', {
-        pageTitle: 'Plants',
-        path: '/plants',
-        data: data
+    const data = json.data;
+    return data;
+ }
+  
+exports.getPlantsPage = (req, res, next) => {
+    getAPI().then(data => {
+        res.render('plants', {
+            pageTitle: 'Plants',
+            path: '/plants',
+            data: data
+        });
     });
 };
 
-exports.postFindPlant = async (req, res) => {
-	const plantName = req.body.searchPlant;
-	const urlAPI = `https://trefle.io/api/v1/plants/search${key}&q=${plantName}`;
-	const response = await fetch(urlAPI);
-	const json = await response.json();
-    const data = json.data;
-    for(var i=0; i < data.length; i++) {
-        const common_name = data[i].common_name;
-        const image_url = data[i].image_url;
-        const scientific_name = data[i].scientific_name;
-        const id = data[i].id;
-        const slug = data[i].slug;
-        const plant = new Plant(common_name, image_url, scientific_name, id, slug);
-        plant.save();
-    }
-	res.render('plants', {
+exports.postFindPlant = (req, res) => {
+    const q = req.body.searchPlant;
+    getAPI('search', q).then(data => {
+        res.render('plants', {
 			pageTitle: 'Plants',
 			path: '/plants',
 			data: data
-	});
+	    });
+    });
 };
 
-exports.getPlantDetails = async (req, res, next) => {
-    const slug = Plant.fetchSlug();
-    // console.log('Returned: ' + returned);
-    // let slug = returned;
-    console.log('Slug: ' + slug);
-	const urlAPI = `https://trefle.io/api/v1/plants/${slug}${key}`;
-	const response = await fetch(urlAPI);
-	const json = await response.json();
-	const plant = json.data;
+exports.getPlantDetails = (req, res, next) => {
+    const q = req.params.slug;
+    getAPI('details', q).then(data => {
         res.render('plant-details', {
-            plant: plant,
+            data: data,
             pageTitle: 'Details',
             path: '/plants'
         });
+    });
 };
 
 exports.getAccountPage = (req, res, next) => {
-    res.render('account/home', {
-        pageTitle: 'Account',
-        path: '/account'
+    Plant.getMyPlants(plants => {
+        res.render('account/home', {
+            pageTitle: 'Account',
+            path: '/account',
+            plants: plants
+        });
     });
 };
 
-exports.postAddPlant = (req, res, next) => {
-    const common_name = req.body.plantName;
-    const image_url = req.body.imgURL;
-    const scientific_name = req.body.desc;
-    const plant = new Plant(common_name, image_url, scientific_name, id, slug);
-    plant.save();
-    res.redirect('back');
+exports.postAddDeletePlant = (req, res, next) => {
+    const deleteMode = req.query.delete;
+    const id = req.body.id;
+    if (deleteMode) {
+        Plant.deleteMyPlant(id);
+    } else {
+        const common_name = req.body.common_name;
+        const scientific_name = req.body.scientific_name;
+        const image_url = req.body.image_url;
+        const slug = req.body.slug;
+        let plants = new Plant(id, common_name, scientific_name, image_url, slug);
+        plants.addMyPlant();
+    }
+    res.redirect('home');
 };
 
-exports.postMyPlant = (req, res, next) => {
-    const pID = req.body.plantID;
-    Plant.findById(pID, (plants) => {
-        Account.addPlant(pID, plants.lastWatered)
-    });
-    res.redirect('/account/home');
-};
-
-exports.getEditPage = (req, res, next) => {
+exports.getEditPlant = (req, res, next) => {
     const editMode = req.query.edit;
     if (!editMode) {
-        return res.redirect('/');
+        console.log('Not Edit Mode');
     }
-    const plantID = req.params.plantID;
-    Plant.findById(plantID, plant => {
+    const id = req.params.id;
+    Plant.findById(id, plant => {
         if (!plant) {
-            return res.redirect('/');
+            console.log('error: no plant')
         }
         res.render('account/edit-plant', {
             pageTitle: 'Edit Plant',
             path: '/account',
-            editing: editMode,
-            plant: plant
+            plant: plant,
+            edit: editMode
         });
     });
 };
 
 exports.postEditPlant = (req, res, next) => {
-
+    const id = req.body.id;
+    const updatedName = req.body.common_name;
+    const scientific_name = req.body.scientific_name;
+    const updatedImg = req.body.image_url;
+    const slug = req.body.slug;
+    const updatedPlant = new Plant(id, updatedName, scientific_name, updatedImg, slug);
+    updatedPlant.save();
+    res.redirect('home');
 };

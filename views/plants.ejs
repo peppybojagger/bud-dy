@@ -3,17 +3,36 @@
 <main>
     <div class="container">
         <div class="row">
-            <h1>Plant Page</h1>
-            <div class="row search">
+            <div class="col sm12 m12">
+                <h1>Plant Page</h1>
+            </div>
+            <div class="col m10 sm12">
                 <form action="/plants" method="POST">
                     <input type="text" name="searchPlant" placeholder="enter plant">
                 </form>
+            </div>
+            <div class="col m2 sm12">
+                <button class="btn" name="searchPlant" type="submit">Search Plants</button>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <h2>Plants:</h2>
+            <div class="col sm12">
+                <ul class="pagination">
+                    <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
+                    <li class="active"><a href="/plants/page=1">1</a></li>
+                    <li class="waves-effect"><a href="/plants/page=2">2</a></li>
+                    <li class="waves-effect"><a href="/plants/page=3">3</a></li>
+                    <li class="waves-effect"><a href="/plants/page=4">4</a></li>
+                    <li class="waves-effect"><a href="/plants/page=5">5</a></li>
+                    <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
+                  </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
             <% for(var i=0; i < data.length; i++) { %>
             <div class="col s12 m4">
                 <div class="card">
@@ -26,13 +45,22 @@
                         <% } else { %>
                             <span class="card-title activator grey-text text-darken-4"><%= data[i].scientific_name %></span>
                         <% }%>
-                        <i class="material-icons right">MORE</i>
+                        <i class="material-icons right">more_vert</i>
                         </span>
                     </div>
+
                     <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4"><%= data[i].common_name %><i class="material-icons right">CLOSE</i></span>
-                        <p><%= data[i].scientific_name %></p>
-                        <p><a href="/plant-details/<%= data[i].slug %>">Plant Details</a></p>
+                        <span class="card-title grey-text text-darken-4"><%= data[i].common_name %><i class="material-icons right">close</i></span>
+                        <p>Scientific Name: <%= data[i].scientific_name %></p>
+                        <p><a class="btn" href="/plant-details/<%= data[i].slug %>">Plant Details</a></p>
+                        <form action="/account/home" method="POST">
+                            <button id="add" class="btn" type="submit">Add To My Plants</button>
+                            <input type="hidden" name="id">
+                            <input type="hidden" name="common_name" value="<%= data[i].common_name %>">
+                            <input type="hidden" name="scientific_name" value="<%= data[i].scientific_name %>">
+                            <input type="hidden" name="image_url" value="<%= data[i].image_url %>">
+                            <input type="hidden" name="slug" value="<%= data[i].slug %>">
+                        </form>
                     </div>
                 </div>
             </div>

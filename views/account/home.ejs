@@ -3,23 +3,40 @@
     <main>
         <div class="container">
             <div class="row">
-                <h1>Account Page</h1>
-                <form class="col s12" action="/account/home" method="POST">
-                    <div class="row">
-                        <div class="input-field col s4">
-                            <input type="text" label="name" name="plantName" placeholder="Plant Name">
+                <div class="col m12">
+                    <h1>Account Page</h1>
+                    <h4>My Plants:</h4>
+                </div>
+                <% if (plants.length > 0) { %>
+                    <% for (let plant of plants) { %>
+                        <div class="col s12 m4">
+                            <div class="card">
+                                <div class="card-image waves-effect waves-block waves-light">
+                                    <img class="activator" src="<%= plant.image_url %>">
+                                </div>
+                                <div class="card-content">
+                                    <% if (plant.common_name !== null) { %>
+                                        <span class="card-title activator grey-text text-darken-4"><%= plant.common_name %></span>
+                                    <% } else { %>
+                                        <span class="card-title activator grey-text text-darken-4"><%= plant.scientific_name %></span>
+                                    <% }%>
+                                    <i class="material-icons right">MORE</i>
+                                    </span>
+                                </div>
+                                <div class="card-reveal">
+                                    <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">CLOSE</i></span>
+                                    <p><%= plant.scientific_name %></p>
+                                    <p><a class="btn" href="/plant-details/<%= plant.slug %>">Plant Details</a></p>
+                                    <p><a class="btn" href="/account/edit-plant/<%= plant.id %>?edit=true">Edit Your Plant</a></p>
+                                    <form action="/account/home?delete=true" method="POST">
+                                        <button id="delete" class="btn" type="submit">Delete This Plant</button>
+                                        <input type="hidden" name="id" value="<%= plant.id %>">
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                        <div class="input-field col s4">
-                            <input type="text" label="img" name="imgURL" placeholder="Plant Image URL">
-                        </div>
-                        <div class="input-field col s4">
-                            <input type="text" label="description" name="desc" placeholder="Plant Description">
-                        </div>
-                        <div class="col s12">
-                            <button class="waves-effect waves-light btn" type="submit">ADD PLANT</button>
-                        </div>
-                    </div>
-                </form>
+                    <% } %>
+                <% } %>
             </div>
         </div>
     </main>

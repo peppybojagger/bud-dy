@@ -3,20 +3,39 @@
 <main>
   <div class="container">
       <div class="row">
-        <h1><%= plant.common_name %></h1>
-        <hr>
+              <div class="col s12">
+                <a href="#!" class="breadcrumb">First</a>
+                <a href="#!" class="breadcrumb">Second</a>
+                <a href="#!" class="breadcrumb">Third</a>
+              </div>
+        <div class="col m4">
+          <img class="top_img" src="<%= data.image_url %>" alt="<%= data.common_name %>">
+        </div>
+        <div class="col m8">
+          <% if (data.common_name) { %>
+            <h1><%= data.common_name %></h1>
+          <% } else { %>
+            <h1><%= data.scientific_name %></h1>
+          <% } %>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+
       </div>
       <div class="row">
-        <img src="<%= plant.image_url %>" alt="<%= plant.common_name %>">
-      </div>
-      <div class="row">
-          <p><%= plant.scientific_name %></p>
+          <p><%= data.scientific_name %></p>
       </div>
       <div class="row">
         <form action="/account/home" method="POST">
           <button class="btn" type="submit">Add To My Plants</button>
-          <input type="hidden" name="plantID" value="<%= plant.id %>">
-        </form>
+          <input type="hidden" name="id">
+          <input type="hidden" name="common_name" value="<%= data.common_name %>">
+          <input type="hidden" name="scientific_name" value="<%= data.scientific_name %>">
+          <input type="hidden" name="image_url" value="<%= data.image_url %>">
+          <input type="hidden" name="description" value="<%= data.description %>">
+          <input type="hidden" name="slug" value="<%= data.slug %>">
+      </form>
       </div>
   </div>
 </main>

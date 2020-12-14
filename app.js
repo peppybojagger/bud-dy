@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const mongoConnect = require('./util/database');
 
 const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
@@ -15,4 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(plantRoutes);
 app.use(appRoutes);
 
-app.listen(3000);
+mongoConnect(client => {
+    console.log(client);
+    app.listen(3000);
+});

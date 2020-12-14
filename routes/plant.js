@@ -12,10 +12,10 @@ router.get('/plant-details/:slug', plantsController.getPlantDetails);
 
 router.get('/account/home', plantsController.getAccountPage);
 
-router.post('/account/home', plantsController.postAddPlant);
+router.post('/account/home', plantsController.postAddDeletePlant);
 
-router.post('/account/home', plantsController.postMyPlant);
+router.get('/account/edit-plant/:id', plantsController.getEditPlant);
 
-router.get('/account/edit-plant/:plantID', plantsController.getEditPage);
+router.post('/account/edit-plant', plantsController.postEditPlant);
 
 module.exports = router;
