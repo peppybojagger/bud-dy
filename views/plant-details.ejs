@@ -9,13 +9,13 @@
                 <a href="#!" class="breadcrumb">Third</a>
               </div>
         <div class="col m4">
-          <img class="top_img" src="<%= data.image_url %>" alt="<%= data.common_name %>">
+          <img class="top_img" src="<%= plants.image_url %>" alt="<%= plants.common_name %>">
         </div>
         <div class="col m8">
-          <% if (data.common_name) { %>
-            <h1><%= data.common_name %></h1>
+          <% if (plants.common_name) { %>
+            <h1><%= plants.common_name %></h1>
           <% } else { %>
-            <h1><%= data.scientific_name %></h1>
+            <h1><%= plants.scientific_name %></h1>
           <% } %>
         </div>
       </div>
@@ -24,17 +24,17 @@
 
       </div>
       <div class="row">
-          <p><%= data.scientific_name %></p>
+          <p><%= plants.scientific_name %></p>
       </div>
       <div class="row">
         <form action="/account/home" method="POST">
           <button class="btn" type="submit">Add To My Plants</button>
           <input type="hidden" name="id">
-          <input type="hidden" name="common_name" value="<%= data.common_name %>">
-          <input type="hidden" name="scientific_name" value="<%= data.scientific_name %>">
-          <input type="hidden" name="image_url" value="<%= data.image_url %>">
-          <input type="hidden" name="description" value="<%= data.description %>">
-          <input type="hidden" name="slug" value="<%= data.slug %>">
+          <input type="hidden" name="common_name" value="<%= plants.common_name %>">
+          <input type="hidden" name="scientific_name" value="<%= plants.scientific_name %>">
+          <input type="hidden" name="image_url" value="<%= plants.image_url %>">
+          <input type="hidden" name="description" value="<%= plants.description %>">
+          <input type="hidden" name="slug" value="<%= plants.slug %>">
       </form>
       </div>
   </div>

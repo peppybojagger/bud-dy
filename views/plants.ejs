@@ -33,33 +33,32 @@
     </div>
     <div class="container">
         <div class="row">
-            <% for(var i=0; i < data.length; i++) { %>
+            <% for(var i=0; i < plants.length; i++) { %>
             <div class="col s12 m4">
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="<%= data[i].image_url %>">
+                        <img class="activator" src="<%= plants[i].image_url %>">
                     </div>
                     <div class="card-content">
-                        <% if (data[i].common_name !== null) { %>
-                            <span class="card-title activator grey-text text-darken-4"><%= data[i].common_name %></span>
+                        <% if (plants[i].common_name !== null) { %>
+                            <span class="card-title activator grey-text text-darken-4"><%= plants[i].common_name %></span>
                         <% } else { %>
-                            <span class="card-title activator grey-text text-darken-4"><%= data[i].scientific_name %></span>
+                            <span class="card-title activator grey-text text-darken-4"><%= plants[i].scientific_name %></span>
                         <% }%>
                         <i class="material-icons right">more_vert</i>
                         </span>
                     </div>
 
                     <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4"><%= data[i].common_name %><i class="material-icons right">close</i></span>
-                        <p>Scientific Name: <%= data[i].scientific_name %></p>
-                        <p><a class="btn" href="/plant-details/<%= data[i].slug %>">Plant Details</a></p>
+                        <span class="card-title grey-text text-darken-4"><%= plants[i].common_name %><i class="material-icons right">close</i></span>
+                        <p>Scientific Name: <%= plants[i].scientific_name %></p>
+                        <p><a class="btn" href="/plant-details/<%= plants[i].slug %>">Plant Details</a></p>
                         <form action="/account/home" method="POST">
                             <button id="add" class="btn" type="submit">Add To My Plants</button>
-                            <input type="hidden" name="id">
-                            <input type="hidden" name="common_name" value="<%= data[i].common_name %>">
-                            <input type="hidden" name="scientific_name" value="<%= data[i].scientific_name %>">
-                            <input type="hidden" name="image_url" value="<%= data[i].image_url %>">
-                            <input type="hidden" name="slug" value="<%= data[i].slug %>">
+                            <input type="hidden" name="common_name" value="<%= plants[i].common_name %>">
+                            <input type="hidden" name="scientific_name" value="<%= plants[i].scientific_name %>">
+                            <input type="hidden" name="image_url" value="<%= plants[i].image_url %>">
+                            <input type="hidden" name="slug" value="<%= plants[i].slug %>">
                         </form>
                     </div>
                 </div>

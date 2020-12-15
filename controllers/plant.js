@@ -1,6 +1,8 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
+const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q) {
@@ -15,59 +17,59 @@ async function getAPI(st, q) {
         urlAPI = `https://trefle.io/api/v1/plants/${slug}${key}`;
     } else {
         urlAPI = `https://trefle.io/api/v1/plants${key}&page=${page}`;
-        console.log(urlAPI);
     }
     const response = await fetch(urlAPI);
 	const json = await response.json();
-    const data = json.data;
-    return data;
+    const plants = json.data;
+    return plants;
  }
   
 exports.getPlantsPage = (req, res, next) => {
-    getAPI().then(data => {
+    getAPI().then(plants => {
         res.render('plants', {
             pageTitle: 'Plants',
             path: '/plants',
-            data: data
+            plants: plants
         });
     });
 };
 
 exports.postFindPlant = (req, res) => {
     const q = req.body.searchPlant;
-    getAPI('search', q).then(data => {
+    getAPI('search', q).then(plants => {
         res.render('plants', {
 			pageTitle: 'Plants',
 			path: '/plants',
-			data: data
+			plants: plants
 	    });
     });
 };
 
 exports.getPlantDetails = (req, res, next) => {
     const q = req.params.slug;
-    getAPI('details', q).then(data => {
+    getAPI('details', q).then(plants => {
         res.render('plant-details', {
-            data: data,
-            pageTitle: 'Details',
+            plants: plants,
+            pageTitle: 'plants.common_name',
             path: '/plants'
         });
     });
 };
 
 exports.getAccountPage = (req, res, next) => {
-    Plant.getMyPlants(plants => {
+    Plant.getMyPlants().then(plants => {
         res.render('account/home', {
-            pageTitle: 'Account',
-            path: '/account',
-            plants: plants
-        });
+			pageTitle: 'Plants',
+			path: '/account',
+			plants: plants
+	    });
+    }).catch(err => {
+        console.log(err);
     });
 };
 
 exports.postAddDeletePlant = (req, res, next) => {
     const deleteMode = req.query.delete;
-    const id = req.body.id;
     if (deleteMode) {
         Plant.deleteMyPlant(id);
     } else {
@@ -75,10 +77,14 @@ exports.postAddDeletePlant = (req, res, next) => {
         const scientific_name = req.body.scientific_name;
         const image_url = req.body.image_url;
         const slug = req.body.slug;
-        let plants = new Plant(id, common_name, scientific_name, image_url, slug);
-        plants.addMyPlant();
+        const plant = new Plant(common_name, scientific_name, image_url, slug);
+        plant.addMyPlant()
+        .then(result => {
+            res.redirect('home');
+        }).catch(err => {
+            console.log(err);
+        });
     }
-    res.redirect('home');
 };
 
 exports.getEditPlant = (req, res, next) => {
@@ -86,10 +92,12 @@ exports.getEditPlant = (req, res, next) => {
     if (!editMode) {
         console.log('Not Edit Mode');
     }
-    const id = req.params.id;
-    Plant.findById(id, plant => {
+    const dbId = req.params._id;
+    Plant.findById(dbId)
+    .then(plant => {
         if (!plant) {
-            console.log('error: no plant')
+            console.log('NO PLANT TO EDIT');
+            res.redirect('back');
         }
         res.render('account/edit-plant', {
             pageTitle: 'Edit Plant',
@@ -97,16 +105,21 @@ exports.getEditPlant = (req, res, next) => {
             plant: plant,
             edit: editMode
         });
+    }).catch(err => {
+        console.log(err);
     });
 };
 
 exports.postEditPlant = (req, res, next) => {
-    const id = req.body.id;
     const updatedName = req.body.common_name;
     const scientific_name = req.body.scientific_name;
     const updatedImg = req.body.image_url;
     const slug = req.body.slug;
-    const updatedPlant = new Plant(id, updatedName, scientific_name, updatedImg, slug);
-    updatedPlant.save();
-    res.redirect('home');
+    const id = req.body._id;
+    const updatedPlant = new Plant(updatedName, scientific_name, updatedImg, slug, id);
+    updatedPlant.addMyPlant().then(plants => {
+        res.redirect('home');
+    }).catch(err => {
+        console.log(err);
+    });
 };

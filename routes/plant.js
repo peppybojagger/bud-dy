@@ -14,8 +14,8 @@ router.get('/account/home', plantsController.getAccountPage);
 
 router.post('/account/home', plantsController.postAddDeletePlant);
 
-router.get('/account/edit-plant/:id', plantsController.getEditPlant);
-
 router.post('/account/edit-plant', plantsController.postEditPlant);
+
+router.get('/account/edit-plant/:_id', plantsController.getEditPlant);
 
 module.exports = router;
