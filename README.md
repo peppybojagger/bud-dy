@@ -1,2 +1,2 @@
 # bud-dy
-Houseplant PWA
+Plant SPA using a service API from Trefle.io
