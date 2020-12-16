@@ -1,8 +1,6 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
-const mongodb = require('mongodb');
-const ObjectId = mongodb.ObjectId;
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q) {
@@ -50,7 +48,7 @@ exports.getPlantDetails = (req, res, next) => {
     getAPI('details', q).then(plants => {
         res.render('plant-details', {
             plants: plants,
-            pageTitle: 'plants.common_name',
+            pageTitle: plants.common_name,
             path: '/plants'
         });
     });
@@ -71,15 +69,21 @@ exports.getAccountPage = (req, res, next) => {
 exports.postAddDeletePlant = (req, res, next) => {
     const deleteMode = req.query.delete;
     if (deleteMode) {
-        Plant.deleteMyPlant(id);
+        const dbId = req.body._id;
+        Plant.deletePlant(dbId)
+        .then(() => {
+            res.redirect('home');
+        }).catch(err => {
+            console.log(err);
+        });
     } else {
         const common_name = req.body.common_name;
         const scientific_name = req.body.scientific_name;
         const image_url = req.body.image_url;
         const slug = req.body.slug;
-        const plant = new Plant(common_name, scientific_name, image_url, slug);
+        const plant = new Plant(common_name, scientific_name, image_url, slug, null, req.user._id);
         plant.addMyPlant()
-        .then(result => {
+        .then(() => {
             res.redirect('home');
         }).catch(err => {
             console.log(err);
