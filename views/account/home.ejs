@@ -25,13 +25,12 @@
                                 </div>
                                 <div class="card-reveal">
                                     <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">CLOSE</i></span>
-                                    <p><%= plant.scientific_name %></p>
+                                    <p>Scientific Name: <%= plant.scientific_name %></p>
+                                    <p>Genus: <%= plant.genus %></p>
+                                    <p>Family: <%= plant.family %></p>
                                     <p><a class="btn" href="/plant-details/<%= plant.slug %>">Plant Details</a></p>
                                     <p><a class="btn" href="/account/edit-plant/<%= plant._id %>?edit=true">Edit Your Plant</a>
                                     <input type="hidden" name="_id" value="<%= plant._id %>">
-                                    <input type="hidden" name="common_name" value="<%= plant.common_name %>">
-                                    <input type="hidden" name="scientific_name" value="<%= plant.scientific_name %>">
-                                    <input type="hidden" name="image_url" value="<%= plant.image_url %>">
                                     <input type="hidden" name="slug" value="<%= plant.slug %>">
                                     <form action="/account/home?delete=true" method="POST"></p>
                                         <button id="delete" class="btn" type="submit">Delete This Plant</button>

@@ -52,11 +52,15 @@
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4"><%= plants[i].common_name %><i class="material-icons right">close</i></span>
                         <p>Scientific Name: <%= plants[i].scientific_name %></p>
+                        <p>Genus: <%= plants[i].genus %></p>
+                        <p>Family: <%= plants[i].family %></p>
                         <p><a class="btn" href="/plant-details/<%= plants[i].slug %>">Plant Details</a></p>
                         <form action="/account/home" method="POST">
                             <button id="add" class="btn" type="submit">Add To My Plants</button>
                             <input type="hidden" name="common_name" value="<%= plants[i].common_name %>">
                             <input type="hidden" name="scientific_name" value="<%= plants[i].scientific_name %>">
+                            <input type="hidden" name="genus" value="<%= plants[i].genus %>">
+                            <input type="hidden" name="family" value="<%= plants[i].family %>">
                             <input type="hidden" name="image_url" value="<%= plants[i].image_url %>">
                             <input type="hidden" name="slug" value="<%= plants[i].slug %>">
                         </form>

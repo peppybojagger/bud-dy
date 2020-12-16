@@ -32,6 +32,7 @@
     "express": "^4.17.1",
     "materialize-css": "^1.0.0-rc.2",
     "mongodb": "^3.6.3",
+    "mongoose": "^5.11.8",
     "node-fetch": "^2.6.1",
     "node-sass": "^5.0.0"
   }

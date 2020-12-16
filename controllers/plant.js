@@ -45,17 +45,17 @@ exports.postFindPlant = (req, res) => {
 
 exports.getPlantDetails = (req, res, next) => {
     const q = req.params.slug;
-    getAPI('details', q).then(plants => {
+    getAPI('details', q).then(plant => {
         res.render('plant-details', {
-            plants: plants,
-            pageTitle: plants.common_name,
+            plant: plant,
+            pageTitle: plant.common_name,
             path: '/plants'
         });
     });
 };
 
 exports.getAccountPage = (req, res, next) => {
-    Plant.getMyPlants().then(plants => {
+    Plant.find().then(plants => {
         res.render('account/home', {
 			pageTitle: 'Plants',
 			path: '/account',
@@ -70,7 +70,7 @@ exports.postAddDeletePlant = (req, res, next) => {
     const deleteMode = req.query.delete;
     if (deleteMode) {
         const dbId = req.body._id;
-        Plant.deletePlant(dbId)
+        Plant.findByIdAndRemove(dbId)
         .then(() => {
             res.redirect('home');
         }).catch(err => {
@@ -79,11 +79,21 @@ exports.postAddDeletePlant = (req, res, next) => {
     } else {
         const common_name = req.body.common_name;
         const scientific_name = req.body.scientific_name;
+        const genus = req.body.genus;
+        const family = req.body.family;
         const image_url = req.body.image_url;
         const slug = req.body.slug;
-        const plant = new Plant(common_name, scientific_name, image_url, slug, null, req.user._id);
-        plant.addMyPlant()
+        const plant = new Plant({
+            common_name: common_name, 
+            scientific_name: scientific_name, 
+            genus: genus, 
+            family: family, 
+            image_url: image_url, 
+            slug: slug
+        });
+        plant.save()
         .then(() => {
+            console.log(plant);
             res.redirect('home');
         }).catch(err => {
             console.log(err);
@@ -116,14 +126,18 @@ exports.getEditPlant = (req, res, next) => {
 
 exports.postEditPlant = (req, res, next) => {
     const updatedName = req.body.common_name;
-    const scientific_name = req.body.scientific_name;
     const updatedImg = req.body.image_url;
-    const slug = req.body.slug;
-    const id = req.body._id;
-    const updatedPlant = new Plant(updatedName, scientific_name, updatedImg, slug, id);
-    updatedPlant.addMyPlant().then(plants => {
+    const dbId = req.body._id;
+    Plant.findById(dbId)
+    .then(plant => {
+        plant.common_name = updatedName;
+        plant.image_url = updatedImg;
+        return plant.save();
+    })
+    .then(result => {
         res.redirect('home');
-    }).catch(err => {
+    })
+    .catch(err => {
         console.log(err);
     });
 };
