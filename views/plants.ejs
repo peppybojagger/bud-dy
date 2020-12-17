@@ -6,13 +6,11 @@
             <div class="col sm12 m12">
                 <h1>Plant Page</h1>
             </div>
-            <div class="col m10 sm12">
+            <div class="col m12 sm12">
                 <form action="/plants" method="POST">
                     <input type="text" name="searchPlant" placeholder="enter plant">
+                    <button class="btn" name="searchPlant" type="submit">Search Plants</button>
                 </form>
-            </div>
-            <div class="col m2 sm12">
-                <button class="btn" name="searchPlant" type="submit">Search Plants</button>
             </div>
         </div>
     </div>
@@ -55,6 +53,7 @@
                         <p>Genus: <%= plants[i].genus %></p>
                         <p>Family: <%= plants[i].family %></p>
                         <p><a class="btn" href="/plant-details/<%= plants[i].slug %>">Plant Details</a></p>
+                        <% if (isAuth) { %>
                         <form action="/account/home" method="POST">
                             <button id="add" class="btn" type="submit">Add To My Plants</button>
                             <input type="hidden" name="common_name" value="<%= plants[i].common_name %>">
@@ -64,6 +63,7 @@
                             <input type="hidden" name="image_url" value="<%= plants[i].image_url %>">
                             <input type="hidden" name="slug" value="<%= plants[i].slug %>">
                         </form>
+                        <% } %>
                     </div>
                 </div>
             </div>

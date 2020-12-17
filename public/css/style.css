@@ -1,11 +1,83 @@
 body {
+  height: 100%;
   font: 100% Helvetica, sans-serif;
-  color: #333; }
+  color: #214012; }
+
+h1 {
+  color: #214012; }
+
+a {
+  color: #5A9C3F; }
+
+a:hover {
+  color: #F9B79D; }
+
+nav {
+  background-color: #F9B79D; }
+  nav a.active {
+    color: #5A9C3F; }
+
+nav .brand-logo {
+  margin-left: 10px;
+  color: #5A9C3F;
+  font-family: "Pacifico", cursive; }
+  nav .brand-logo .monstera {
+    width: 70px;
+    float: left;
+    margin-top: 10px;
+    margin-right: 10px; }
+
+nav ul a:hover {
+  background-color: #fff; }
+
+.btn {
+  background-color: #214012; }
+
+.btn:hover, .btn:focus {
+  background-color: #5A9C3F;
+  color: #fff; }
+
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #5A9C3F;
+  -webkit-box-shadow: 0 1px 0 0 #5A9C3F;
+  box-shadow: 0 1px 0 0 #5A9C3F; }
+
+.main_bg_img {
+  min-height: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -100; }
+
+.login_form {
+  width: fit-content;
+  height: fit-content;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 3px;
+  padding: 30px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+.intro {
+  text-align: center; }
+  .intro h1 {
+    font-family: "Pacifico", cursive; }
+  .intro .monstera {
+    width: 100px; }
 
 .card .card-image img {
   max-width: fit-content;
-  max-height: 200px;
+  height: 200px;
   object-fit: cover; }
+
+.card .card-content .card-title {
+  display: inline; }
 
 .top_img {
   width: 300px; }

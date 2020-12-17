@@ -1,16 +1,98 @@
-body {
-  font: 100% Helvetica, sans-serif;
-  color: #333; 
-}
+$font-stack: Helvetica, sans-serif;
+$logo-font-stack: 'Pacifico', cursive;
+$primary-color: #214012;
+$hover-color: #5A9C3F;
+$secondary-color: #F9B79D;
 
+body {
+  height: 100%;
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+h1 {
+  color: $primary-color;
+}
+a {
+  color: $hover-color;
+}
+a:hover {
+  color: $secondary-color;
+}
+nav {
+  background-color: $secondary-color;
+  a.active {
+    color: $hover-color;
+  }
+}
+nav {
+  .brand-logo {
+    margin-left: 10px;
+    color: $hover-color;
+    font-family: $logo-font-stack;
+    .monstera {
+      width: 70px;
+      float: left;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+  }
+  ul a:hover {
+    background-color: #fff;
+  }
+}
+.btn {
+  background-color: $primary-color;
+}
+.btn:hover, .btn:focus {
+  background-color: $hover-color;
+  color: #fff;
+}
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid$hover-color;
+  -webkit-box-shadow: 0 1px 0 0$hover-color;
+  box-shadow: 0 1px 0 0$hover-color;
+}
+.main_bg_img {
+  min-height: 100%;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -100;
+}
+.login_form {
+  width: fit-content;
+  height: fit-content;
+  background-color:rgba(255, 255, 255, 0.75);
+  border-radius: 3px;
+  padding: 30px;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.intro {
+  text-align: center;
+  h1 {
+    font-family: $logo-font-stack;
+  }
+  .monstera {
+    width: 100px;
+  }
+}
 .card {
   .card-image img {
     max-width: fit-content;
-    max-height: 200px;
+    height: 200px;
     object-fit: cover;
   }
 }
-
+.card .card-content .card-title {
+  display: inline;
+}
 .top_img {
   width: 300px;
 }

@@ -2,34 +2,51 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
-// const User = require('./models/user');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const User = require('./models/user');
 
 const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 const app = express();
 
+const MONGODB_URI = 'mongodb+srv://peppybojagger:ApolloMargot420@cluster0.d1sck.mongodb.net/Bud-dy?retryWrites=true&w=majority';
+const store = new MongoDBStore({
+    uri: MONGODB_URI,
+    collection: 'sessions'
+});
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-// app.use((req, res, next) => {
-//     User.findUserbyId('5fd950b4b01a143bfe43f874')
-//     .then(user => {
-//         req.user = user;
-//         next();
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     })
-// });
+app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
+app.use((req, res, next) => {
+    User.findById('5fd992ec97d61f305c5ad836')
+    .then(user => {
+        req.user = user;
+        next();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+});
 
 app.use(plantRoutes);
 app.use(appRoutes);
 
-mongoose.connect('mongodb+srv://peppybojagger:ApolloMargot420@cluster0.d1sck.mongodb.net/Bud-dy?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result => {
+    User.findOne().then(user => {
+        if (!user) {
+            const user = new User({
+                name: 'peppybojagger',
+                email: 'peppybojagger@gmail.com'
+            });
+            user.save();
+        }
+    });
     app.listen(3000);
 }).catch(err => {
     console.log(err);

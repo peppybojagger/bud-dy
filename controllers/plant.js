@@ -27,7 +27,8 @@ exports.getPlantsPage = (req, res, next) => {
         res.render('plants', {
             pageTitle: 'Plants',
             path: '/plants',
-            plants: plants
+            plants: plants,
+            isAuth: req.session.isLoggedIn
         });
     });
 };
@@ -38,7 +39,8 @@ exports.postFindPlant = (req, res) => {
         res.render('plants', {
 			pageTitle: 'Plants',
 			path: '/plants',
-			plants: plants
+			plants: plants,
+            isAuth: req.session.isLoggedIn
 	    });
     });
 };
@@ -49,7 +51,8 @@ exports.getPlantDetails = (req, res, next) => {
         res.render('plant-details', {
             plant: plant,
             pageTitle: plant.common_name,
-            path: '/plants'
+            path: '/plants',
+            isAuth: req.session.isLoggedIn
         });
     });
 };
@@ -59,7 +62,8 @@ exports.getAccountPage = (req, res, next) => {
         res.render('account/home', {
 			pageTitle: 'Plants',
 			path: '/account',
-			plants: plants
+            plants: plants,
+            isAuth: req.session.isLoggedIn
 	    });
     }).catch(err => {
         console.log(err);
@@ -89,7 +93,8 @@ exports.postAddDeletePlant = (req, res, next) => {
             genus: genus, 
             family: family, 
             image_url: image_url, 
-            slug: slug
+            slug: slug,
+            userId: req.user._id
         });
         plant.save()
         .then(() => {
@@ -117,7 +122,8 @@ exports.getEditPlant = (req, res, next) => {
             pageTitle: 'Edit Plant',
             path: '/account',
             plant: plant,
-            edit: editMode
+            edit: editMode,
+            isAuth: req.session.isLoggedIn
         });
     }).catch(err => {
         console.log(err);

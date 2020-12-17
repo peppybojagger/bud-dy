@@ -21,6 +21,10 @@ const plantSchema = new Schema({
         },
         slug: {
             type: String
+        },
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         }
 });
 

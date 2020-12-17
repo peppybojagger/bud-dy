@@ -1,6 +1,19 @@
-// const mongodb = require('mongodb');
-// const getDB = require('../util/database').getDB;
-// const ObjectId = mongodb.ObjectId;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const userSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    }
+});
+
+module.exports = mongoose.model('User', userSchema);
+
 
 // module.exports = class User {
 //     constructor(username, email) {

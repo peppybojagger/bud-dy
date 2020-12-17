@@ -20,11 +20,11 @@
                                     <% } else { %>
                                         <span class="card-title activator grey-text text-darken-4"><%= plant.scientific_name %></span>
                                     <% }%>
-                                    <i class="material-icons right">MORE</i>
+                                    <i class="material-icons right">more_vert</i>
                                     </span>
                                 </div>
                                 <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">CLOSE</i></span>
+                                    <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">close</i></span>
                                     <p>Scientific Name: <%= plant.scientific_name %></p>
                                     <p>Genus: <%= plant.genus %></p>
                                     <p>Family: <%= plant.family %></p>
@@ -33,7 +33,7 @@
                                     <input type="hidden" name="_id" value="<%= plant._id %>">
                                     <input type="hidden" name="slug" value="<%= plant.slug %>">
                                     <form action="/account/home?delete=true" method="POST"></p>
-                                        <button id="delete" class="btn" type="submit">Delete This Plant</button>
+                                        <button id="delete" class="btn" type="submit">Delete Your Plant</button>
                                         <input type="hidden" name="_id" value="<%= plant._id %>">
                                     </form>
                                 </div>

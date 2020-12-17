@@ -1,6 +1,32 @@
 <%- include('includes/head.ejs') %>
 <%- include('includes/nav.ejs') %>
+<img class="main_bg_img" src="images/index_bg.jpg" alt="">
 <main>
-    <h1>Home</h1>
+    <div class="container">
+        <div class="row">
+             <div class="login_form">
+                <div class="intro">
+                    <h1>BUD-DY</h1>
+                    <img class="monstera" src="/images/monstera.png" alt="monstera leaf">
+                    <p>Bud-dy is a gardening and houseplant management app built with <a target="_blank" href="https://trefle.io/">Treffle.io</a> botanical data source API.</p>
+                </div>
+                <% if (!isAuth) { %>
+                <form action="/" method="POST">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input type="text" label="username" name="username" placeholder="username">
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" label="password" name="password" placeholder="password">
+                        </div>
+                        <div class="col s12">
+                            <button class="waves-effect waves-light btn" type="submit">LOGIN</button>
+                        </div>
+                    </div>
+                </form>
+                <% } %>
+             </div>
+        </div>
+    </div>
 </main>
 <%- include('includes/end.ejs') %>
