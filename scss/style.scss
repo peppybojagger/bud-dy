@@ -23,8 +23,6 @@ nav {
   a.active {
     color: $hover-color;
   }
-}
-nav {
   .brand-logo {
     margin-left: 10px;
     color: $hover-color;
@@ -38,6 +36,21 @@ nav {
   }
   ul a:hover {
     background-color: #fff;
+  }
+  .nav-btn {
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: background-color .3s;
+    height: 64px;
+    font-size: 16px;
+  }
+  .btn-flat:focus, .btn-flat:hover {
+    background-color: #fff;
+    color: $secondary-color;
   }
 }
 .btn {
@@ -78,9 +91,13 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   text-align: center;
   h1 {
     font-family: $logo-font-stack;
+    margin-top: 0;
   }
   .monstera {
     width: 100px;
+  }
+  .input-field>label {
+    font-size: 16px;
   }
 }
 .card {

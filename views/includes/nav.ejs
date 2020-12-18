@@ -8,11 +8,12 @@
                     <li class="main-header_list-item"><a class="<%= path === '/account' ? 'active' : '' %>" href="/account/home">ACCOUNT</a></li>
                     <li class="main-header_list-item">
                         <form action="/?logout=true" method="post">
-                            <button class="btn-flat" type="submit">LOGOUT</button>
+                            <button class="nav-btn btn-flat" type="submit">LOGOUT</button>
                         </form>
                     </li>
                 <% } else { %>
                 <li class="main-header_list-item"><a href="/">LOGIN</a></li>
+                <li class="main-header_list-item"><a href="/signup">SIGN UP</a></li>
                 <% } %>
             </ul>
           </div>

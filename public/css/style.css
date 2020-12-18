@@ -16,19 +16,30 @@ nav {
   background-color: #F9B79D; }
   nav a.active {
     color: #5A9C3F; }
-
-nav .brand-logo {
-  margin-left: 10px;
-  color: #5A9C3F;
-  font-family: "Pacifico", cursive; }
-  nav .brand-logo .monstera {
-    width: 70px;
-    float: left;
-    margin-top: 10px;
-    margin-right: 10px; }
-
-nav ul a:hover {
-  background-color: #fff; }
+  nav .brand-logo {
+    margin-left: 10px;
+    color: #5A9C3F;
+    font-family: "Pacifico", cursive; }
+    nav .brand-logo .monstera {
+      width: 70px;
+      float: left;
+      margin-top: 10px;
+      margin-right: 10px; }
+  nav ul a:hover {
+    background-color: #fff; }
+  nav .nav-btn {
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    color: #fff;
+    display: block;
+    padding: 0 15px;
+    cursor: pointer;
+    transition: background-color .3s;
+    height: 64px;
+    font-size: 16px; }
+  nav .btn-flat:focus, nav .btn-flat:hover {
+    background-color: #fff;
+    color: #F9B79D; }
 
 .btn {
   background-color: #214012; }
@@ -67,9 +78,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .intro {
   text-align: center; }
   .intro h1 {
-    font-family: "Pacifico", cursive; }
+    font-family: "Pacifico", cursive;
+    margin-top: 0; }
   .intro .monstera {
     width: 100px; }
+  .intro .input-field > label {
+    font-size: 16px; }
 
 .card .card-image img {
   max-width: fit-content;

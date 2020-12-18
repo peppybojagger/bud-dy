@@ -8,20 +8,20 @@
                 <div class="intro">
                     <h1>BUD-DY</h1>
                     <img class="monstera" src="/images/monstera.png" alt="monstera leaf">
-                    <p>Bud-dy is a gardening and houseplant management app built with <a target="_blank" href="https://trefle.io/">Treffle.io</a> botanical data source API.</p>
+                    <p>Bud-dy is a gardening and houseplant management app<br> using <a target="_blank" href="https://trefle.io/">Trefle</a>'s botanical data source API.</p>
                 </div>
                 <% if (!isAuth) { %>
                 <form action="/" method="POST">
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input type="text" label="username" name="username" placeholder="username">
-                        </div>
-                        <div class="input-field col s6">
-                            <input type="text" label="password" name="password" placeholder="password">
-                        </div>
-                        <div class="col s12">
-                            <button class="waves-effect waves-light btn" type="submit">LOGIN</button>
-                        </div>
+                    <div class="input-field col m6">
+                        <label for="email">Email</label>
+                        <input type="email" label="email" name="email">
+                    </div>
+                    <div class="input-field col m6">
+                        <label for="password">Password</label>
+                        <input type="password" label="password" name="password">
+                    </div>
+                    <div class="col s12">
+                        <button class="waves-effect waves-light btn" type="submit">LOGIN</button>
                     </div>
                 </form>
                 <% } %>

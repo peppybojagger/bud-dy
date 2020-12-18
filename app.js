@@ -22,8 +22,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
+
 app.use((req, res, next) => {
-    User.findById('5fd992ec97d61f305c5ad836')
+    if (!req.session.user) {
+        return next();
+    }
+    User.findById(req.session.user._id)
     .then(user => {
         req.user = user;
         next();
@@ -38,15 +42,6 @@ app.use(appRoutes);
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result => {
-    User.findOne().then(user => {
-        if (!user) {
-            const user = new User({
-                name: 'peppybojagger',
-                email: 'peppybojagger@gmail.com'
-            });
-            user.save();
-        }
-    });
     app.listen(3000);
 }).catch(err => {
     console.log(err);

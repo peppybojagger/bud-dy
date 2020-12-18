@@ -58,16 +58,18 @@ exports.getPlantDetails = (req, res, next) => {
 };
 
 exports.getAccountPage = (req, res, next) => {
-    Plant.find().then(plants => {
-        res.render('account/home', {
-			pageTitle: 'Plants',
-			path: '/account',
-            plants: plants,
-            isAuth: req.session.isLoggedIn
-	    });
-    }).catch(err => {
-        console.log(err);
-    });
+        const userId = req.user._id;
+        Plant.find({ userId: userId })
+        .then(plants => {
+            res.render('account/home', {
+                pageTitle: 'Plants',
+                path: '/account',
+                plants: plants,
+                isAuth: req.session.isLoggedIn
+            });
+        }).catch(err => {
+            console.log(err);
+        });
 };
 
 exports.postAddDeletePlant = (req, res, next) => {
@@ -98,7 +100,6 @@ exports.postAddDeletePlant = (req, res, next) => {
         });
         plant.save()
         .then(() => {
-            console.log(plant);
             res.redirect('home');
         }).catch(err => {
             console.log(err);
