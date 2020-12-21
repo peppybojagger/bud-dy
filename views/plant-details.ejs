@@ -1,44 +1,141 @@
 <%- include('includes/head.ejs') %>
 <%- include('includes/nav.ejs') %>
 <main>
+  <div class="breadcrumbs container">
+    <div class="row">
+      <div class="nav-wrapper">
+        <div class="col s12">
+          <a href="#" class="breadcrumb"><%= plant.data.family.name %></a>
+          <a href="/genus/<%= plant.data.genus.name %>" class="breadcrumb"><%= plant.data.genus.name %></a>
+          <a href="/plant-details/<%= plant.data.slug %>" class="breadcrumb"><%= plant.data.scientific_name %></a>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container">
       <div class="row">
-              <div class="col s12">
-                <a href="#!" class="breadcrumb">First</a>
-                <a href="#!" class="breadcrumb">Second</a>
-                <a href="#!" class="breadcrumb">Third</a>
-              </div>
         <div class="col m4">
-          <img class="top_img" src="<%= plant.image_url %>" alt="<%= plant.common_name %>">
+        <% if (plant.data.image_url) { %>
+          <img class="top_img"  src="<%= plant.data.image_url %>" alt="<%= plant.data.common_name %>">
+        <% } else { %>
+              <img class="top_img"  src="/images/plant-placeholder.png">
+        <% } %>
         </div>
         <div class="col m8">
-          <% if (plant.common_name) { %>
-            <h1><%= plant.common_name %></h1>
+          <% if (plant.data.common_name) { %>
+            <h1 class="deets"><%= plant.data.common_name %></h1>
+            <h4><%= plant.data.scientific_name %></h4>
           <% } else { %>
-            <h1><%= plant.scientific_name %></h1>
+            <h1 class="deets"><%= plant.data.scientific_name %></h1>
           <% } %>
+          <p>Genus: <a href="/genus/<%= plant.data.genus.name %>"><%= plant.data.genus.name %></a>   |   Family: <%= plant.data.family.name %></p>
+          <% if (isAuth) { %>
+          <form action="/account/home" method="POST">
+            <button class="btn" type="submit">Add To My Plants</button>
+            <input type="hidden" name="common_name" value="<%= plant.data.common_name %>">
+            <input type="hidden" name="scientific_name" value="<%= plant.data.scientific_name %>">
+            <input type="hidden" name="genus" value="<%= plant.data.genus.name %>">
+            <input type="hidden" name="family" value="<%= plant.data.family.name %>">
+            <input type="hidden" name="image_url" value="<%= plant.data.image_url %>">
+            <input type="hidden" name="slug" value="<%= plant.data.slug %>">
+        </form>
+            <% } %>
         </div>
       </div>
       <hr>
+      <% if (plant.data.main_species) { %>
       <div class="row">
+        <div class="col m6">
+          <h3><i class="spesh material-icons">info</i>Specifications</h3>
+          <% if (plant.data.main_species.specifications) { %>
+          <p><b>Average Height:</b> <%= plant.data.main_species.specifications.average_height.cm %> cm</p>
+          <p><b>Growth Rate:</b> <%= plant.data.main_species.specifications.growth_rate %></p>
+          <p><b>Toxicity:</b> <%= plant.data.main_species.specifications.toxicity %></p>
+          <p><b>Edible:</b> <%= plant.data.main_species.edible %></p>
+          <% } %>
+        </div>
+        <div class="col m6">
+          <h3><i class="spesh material-icons">local_florist</i>Growing</h3>
+          <% if (plant.data.main_species.growth) { %>
+            <p><b>Description:</b> <%= plant.data.main_species.growth.description %></p>
+            <p><b>Light:</b> <%= plant.data.main_species.growth.light %></p>
+            <p><b>Sowing:</b> <%= plant.data.main_species.growth.sowing %></p>
+            <p><b>Days to Harvest:</b> <%= plant.data.main_species.growth.days_to_harvest %></p>
+            <p><b>Row Spacing:</b> <%= plant.data.main_species.growth.row_spacing.cm %> cm</p>
+            <p><b>PH Range:</b> <%= plant.data.main_species.growth.ph_minimum %> to <%= plant.data.main_species.growth.ph_maximum %></p>
+            <p><b>Temperature Range:</b> 
+              <%= plant.data.main_species.growth.maximum_temperature.deg_f %>°F /
+              <%= plant.data.main_species.growth.maximum_temperature.deg_c %>°C to 
+              <%= plant.data.main_species.growth.minimum_temperature.deg_f %>°F /
+              <%= plant.data.main_species.growth.minimum_temperature.deg_c %>°C</p>
+            <% } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col m12">
+          <h3><i class="spesh material-icons">map</i>Distributions</h3>
+          <p><b>Native to:</b>
+            <% if (plant.data.main_species.distribution.native) { %>
+            <% for(var i=0; i < plant.data.main_species.distribution.native.length; i++) { %>
+              <span class="comma"><%= plant.data.main_species.distribution.native[i] %></span>
+            <% } %></p>
+            <% } %>
+            <p><b>Introduced to:</b> 
+              <% if (plant.data.main_species.distribution.introduced) { %>
+                <% for(var i=0; i < plant.data.main_species.distribution.introduced.length; i++) { %>
+                  <span class="comma"><%= plant.data.main_species.distribution.introduced[i] %></span>
+                <% } %></p>
+              <% } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col m12">
+          <h3><i class="spesh material-icons">image</i>Images</h3>
+          <div class="col s12">
+          <% if (plant.data.main_species.images.flower.length) { %>
+            <h4>Flower</h4>
+            <% for(var i=0; i < plant.data.main_species.images.flower.length; i++) { %>
+              <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.flower[i].image_url %>" alt="<%= plant.data.common_name %> flower">
+            <% } %>
+          <% } %>
+          </div>
+          <div class="col s12">
+          <% if (plant.data.main_species.images.leaf.length) { %>
+            <h4>Leaf</h4>
+            <% for(var i=0; i < plant.data.main_species.images.leaf.length; i++) { %>
+              <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.leaf[i].image_url %>" alt="<%= plant.data.common_name %> leaf">
+            <% } %>
+          <% } %>
+          </div>
+          <div class="col s12">
+          <% if (plant.data.main_species.images.fruit.length) { %>
+            <h4>Fruit</h4>
+            <% for(var i=0; i < plant.data.main_species.images.fruit.length; i++) { %>
+              <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.fruit[i].image_url %>" alt="<%= plant.data.common_name %> fruit">
+            <% } %>
+          <% } %>
+          </div>
+          <div class="col s12">
+          <% if (plant.data.main_species.images.bark.length) { %>
+            <h4>Bark / Stem</h4>
+            <% for(var i=0; i < plant.data.main_species.images.bark.length; i++) { %>
+              <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.bark[i].image_url %>" alt="<%= plant.data.common_name %> bark">
+            <% } %>
+          <% } %>
+          </div>
+          <div id="imgModal" name="imgModal" class="modal">
 
+            <!-- The Close Button -->
+            <span name="close" class="close">&times;</span>
+          
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" name="img_l" id="img01">
+          </div>
+        </div>
       </div>
-      <div class="row">
-          <p><%= plant.scientific_name %></p>
-      </div>
-      <div class="row">
-        <% if (isAuth) { %>
-        <form action="/account/home" method="POST">
-          <button class="btn" type="submit">Add To My Plants</button>
-          <input type="hidden" name="common_name" value="<%= plant.common_name %>">
-          <input type="hidden" name="scientific_name" value="<%= plant.scientific_name %>">
-          <input type="hidden" name="genus" value="<%= plant.genus %>">
-          <input type="hidden" name="family" value="<%= plant.family %>">
-          <input type="hidden" name="image_url" value="<%= plant.image_url %>">
-          <input type="hidden" name="slug" value="<%= plant.slug %>">
-      </form>
+      <% } else { %>
+        <p>Data is not yet complete for this plant.</p>
       <% } %>
-      </div>
   </div>
 </main>
 <%- include('includes/end.ejs') %>

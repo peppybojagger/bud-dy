@@ -4,13 +4,14 @@
         <div class="container">
             <div class="row">
                 <div class="col m12">
-                    <h1>Account Page</h1>
+                    <h1>Account</h1>
+                    <p>Welcome, <%= user.userName %>!</p>
                     <h4>My Plants:</h4>
                 </div>
                 <% if (plants.length > 0) { %>
                     <% for (let plant of plants) { %>
                         <div class="col s12 m4">
-                            <div class="card">
+                            <div id ="card" class="card">
                                 <div class="card-image waves-effect waves-block waves-light">
                                     <img class="activator" src="<%= plant.image_url %>">
                                 </div>
@@ -20,19 +21,27 @@
                                     <% } else { %>
                                         <span class="card-title activator grey-text text-darken-4"><%= plant.scientific_name %></span>
                                     <% }%>
-                                    <i class="material-icons right">more_vert</i>
+                                    <p>Last Watered: <%= plant.lastWatered %></span></p>
+                                    <div class="click-to-top">
+                                        <form action="/account/home?water=true" method="POST">
+                                            <button id="water" class="btn" type="submit"><img class="can" title="Tap to mark as watered today" src="/images/can.png" alt="watering can"/></button>
+                                            <input type="hidden" name="_id" value="<%= plant._id %>">
+                                            <input type="hidden" name="lastWatered" value="<%= plant.lastWatered %>">
+                                        </form>
+                                    </div>
                                     </span>
                                 </div>
                                 <div class="card-reveal">
-                                    <span class="card-title grey-text text-darken-4"><%= plant.common_name %><i class="material-icons right">close</i></span>
-                                    <p>Scientific Name: <%= plant.scientific_name %></p>
-                                    <p>Genus: <%= plant.genus %></p>
-                                    <p>Family: <%= plant.family %></p>
+                                    <span class="card-title grey-text text-darken-4"><b><%= plant.common_name %></b><i class="material-icons right">close</i></span>
+                                    <p><b>Scientific Name:</b> <%= plant.scientific_name %></p>
+                                    <p><b>Genus:</b> <%= plant.genus %></p>
+                                    <p><b>Family:</b> <%= plant.family %></p>
                                     <p><a class="btn" href="/plant-details/<%= plant.slug %>">Plant Details</a></p>
                                     <p><a class="btn" href="/account/edit-plant/<%= plant._id %>?edit=true">Edit Your Plant</a>
                                     <input type="hidden" name="_id" value="<%= plant._id %>">
                                     <input type="hidden" name="slug" value="<%= plant.slug %>">
-                                    <form action="/account/home?delete=true" method="POST"></p>
+                                    <input type="hidden" name="lastWatered" value="<%= plant.lastWatered %>"></p>
+                                    <form action="/account/home?delete=true" method="POST">
                                         <button id="delete" class="btn" type="submit">Delete Your Plant</button>
                                         <input type="hidden" name="_id" value="<%= plant._id %>">
                                     </form>

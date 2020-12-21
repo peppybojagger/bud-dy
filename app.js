@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 app.use(plantRoutes);
 app.use(appRoutes);
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 .then(result => {
     app.listen(3000);
 }).catch(err => {

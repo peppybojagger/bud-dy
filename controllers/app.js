@@ -5,7 +5,8 @@ exports.getIndex = (req, res, next) => {
     res.render('index', {
         pageTitle: 'Bud-dy',
         path: '/',
-        isAuth: req.session.isLoggedIn
+        isAuth: req.session.isLoggedIn,
+        noFoot: true
     });
 };
 
@@ -43,12 +44,14 @@ exports.getSignup = (req, res, next) => {
     res.render('signup', {
         pageTitle: 'Create Account',
         path: '/signup',
-        isAuth: req.session.isLoggedIn
+        isAuth: req.session.isLoggedIn,
+        noFoot: true
     });
 };
 
 exports.postSignup = (req, res, next) => {
     const email = req.body.email;
+    const userName = req.body.userName;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
     User.findOne({email: email})
@@ -60,6 +63,7 @@ exports.postSignup = (req, res, next) => {
         .then(hashedPw => {
             const user = new User({
                 email: email,
+                userName: userName,
                 password: hashedPw
             });
             return user.save();
@@ -76,6 +80,7 @@ exports.get404Page = (req, res, next) => {
     res.status(404).render('404', {
         pageTitle: '404',
         path: '/404',
-        isAuth: req.session.isLoggedIn
+        isAuth: req.session.isLoggedIn,
+        noFoot: false
     });
 };

@@ -4,21 +4,11 @@
     <div class="container">
         <div class="row">
             <div class="col sm12 m12">
-                <h1>Plants</h1>
+                <h1><%= plants.data[0].genus %></h1>
+                <p>Genus of the <%= plants.data[0].family %> Family with <%= plants.meta.total %> Species.</p>
             </div>
-            <div class="col m12 sm12">
-                <form action="/plants" method="POST">
-                    <div class="input-field col m12 s12">
-                        <label for="searchPlant">Enter Plant</label>
-                        <input type="text" label="searchPlant" name="searchPlant">
-                    </div>
-                    <div class="col m12">
-                        <button class="btn" name="searchPlant" type="submit">Search Plants</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col m12 sm12">
-                <ul class="pagination center">
+            <div class="col m4 sm12">
+                <ul class="pagination right">
                     <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
                     <li class="active"><a href="/plants/page=1">1</a></li>
                     <li class="waves-effect"><a href="/plants/page=2">2</a></li>
@@ -37,10 +27,10 @@
                 <div class="card">
                     <div class="card-image waves-effect waves-block waves-light">
                         <% if (plants.data[i].image_url) { %>
-                            <img class="activator"  src="<%= plants.data[i].image_url %>" alt="<%= plants.data[i].common_name %>">
-                          <% } else { %>
-                                <img class="activator"  src="/images/plant-placeholder.png">
-                          <% } %>
+                        <img class="activator"  src="<%= plants.data[i].image_url %>">
+                        <% } else { %>
+                            <img class="activator"  src="/images/plant-placeholder.png">
+                        <% } %>
                     </div>
                     <div class="card-content">
                         <% if (plants.data[i].common_name !== null) { %>
@@ -48,6 +38,7 @@
                         <% } else { %>
                             <span class="card-title activator grey-text text-darken-4"><%= plants.data[i].scientific_name %></span>
                         <% }%>
+                        </span>
                     </div>
                     <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4"><b><%= plants.data[i].common_name %></b><i class="material-icons right">close</i></span>
@@ -71,18 +62,16 @@
             </div>
             <% } %>
         </div>
-        <div class="row">
-            <div class="col m12 s12">
-                <ul class="pagination center">
-                    <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="/plants/page=1">1</a></li>
-                    <li class="waves-effect"><a href="/plants/page=2">2</a></li>
-                    <li class="waves-effect"><a href="/plants/page=3">3</a></li>
-                    <li class="waves-effect"><a href="/plants/page=4">4</a></li>
-                    <li class="waves-effect"><a href="/plants/page=5">5</a></li>
-                    <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
-                  </ul>
-            </div>
+        <div class="col m6 sm12">
+            <ul class="pagination right">
+                <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
+                <li class="active"><a href="/plants/page=1">1</a></li>
+                <li class="waves-effect"><a href="/plants/page=2">2</a></li>
+                <li class="waves-effect"><a href="/plants/page=3">3</a></li>
+                <li class="waves-effect"><a href="/plants/page=4">4</a></li>
+                <li class="waves-effect"><a href="/plants/page=5">5</a></li>
+                <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
+              </ul>
         </div>
     </div>
 </main>

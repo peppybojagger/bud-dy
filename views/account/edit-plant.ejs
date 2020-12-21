@@ -6,11 +6,22 @@
             <h1>Edit <%= plant.common_name %></h1>
             <form class="col s12" action="/account/edit-plant" method="POST">
                 <div class="row">
-                    <div class="input-field col s6">
-                        <input type="text" label="name" name="common_name" placeholder="<%= plant.common_name %>" value="<%= plant.common_name %>">
+                    <div class="input-field col m4 s12">
+                        <label for="common_name">Custom Name</label>
+                        <input type="text" name="common_name" value="<%= plant.common_name %>">
                     </div>
-                    <div class="input-field col s6">
-                        <input type="text" label="img" name="image_url" placeholder="<%= plant.image_url %>" value="<%= plant.image_url %>">
+                    <div class="input-field col m4 s12">
+                        <label for="image_url">Custom Image</label>
+                        <input type="text" name="image_url" value="<%= plant.image_url %>">
+                    </div>
+                    <div class="input-field col m4 s12">
+                        <% if (plant.lastWatered) { %>
+                            <label>Last Watered</label>
+                            <input type="date" name="watered" value="<%= plant.lastWatered %>">
+                        <% } else { %>
+                            <label>Last Watered</label>
+                            <input type="date" name="watered" placeholder=" ">
+                        <% } %>
                     </div>
                     <div class="col s12">
                         <button class="waves-effect waves-light btn" type="submit">UPDATE</button>
