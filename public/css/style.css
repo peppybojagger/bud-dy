@@ -274,6 +274,13 @@ i.spesh {
   z-index: 1;
   font-size: 14px; }
 
+.card .card-content .click-to-top {
+  float: right;
+  max-width: 150px;
+  margin-top: -60px; }
+  .card .card-content .click-to-top img {
+    width: 30px; }
+
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 600px) {
   nav .nav-btn {
@@ -319,12 +326,32 @@ i.spesh {
   .top_img {
     width: 100%;
     margin: 20px auto;
-    height: auto; } }
+    height: auto; }
+  .card .card-content .click-to-top {
+    float: none;
+    max-width: 60px;
+    margin-top: 0px;
+    position: relative; }
+    .card .card-content .click-to-top img {
+      width: 20px; } }
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
   .login_form {
-    margin: 35vh auto 0; } }
+    margin: 35vh auto 0; }
+  .card .card-content .click-to-top {
+    float: none;
+    max-width: 60px;
+    margin-top: 0px;
+    position: relative; }
+    .card .card-content .click-to-top img {
+      width: 20px; } }
 
 /* Large devices (laptops/desktops, 992px and up) */
-/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 992px) {
+  .card .card-content .click-to-top {
+    float: right;
+    max-width: 150px;
+    margin-top: -60px; }
+    .card .card-content .click-to-top img {
+      width: 30px; } }

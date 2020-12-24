@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -8,20 +10,24 @@ const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+const helmet = require('helmet');
+const compression = require('compression');
+const morgan = require('morgan');
 
 const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 const app = express();
 
-const MONGODB_URI = 'mongodb+srv://peppybojagger:ApolloMargot420@cluster0.d1sck.mongodb.net/Bud-dy?retryWrites=true&w=majority';
+const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
     uri: MONGODB_URI,
     collection: 'sessions'
 });
 
 const csrfProtection = csrf();
-
+const privateKey = fs.readFileSync('server.key');
+const certificate = fs.readFileSync('server.cert');
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, 'images');
@@ -54,6 +60,24 @@ app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, s
 
 app.use(csrfProtection);
 app.use(flash());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        fontSrc: ["'self'", "'unsafe-inline'", 'https://fonts.gstatic.com'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'],
+        styleSrc: ["'self'", "'unsafe-inline'",  'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'],
+        imgSrc: ["*", 'data:'],
+        connectSrc: ["'self'"],
+        frameSrc: ["'self'"],
+      },
+    }
+  })
+);
+app.use(compression());
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {flags: 'a'});
+app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -83,7 +107,7 @@ app.use(appRoutes);
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
 .then(result => {
-    app.listen(3000);
+    https.createServer({key: privateKey, cert: certificate}, app).listen(process.env.PORT || 3000);
 }).catch(err => {
     console.log(err);
 });
