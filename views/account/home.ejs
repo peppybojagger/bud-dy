@@ -7,13 +7,18 @@
                     <h1>Account</h1>
                     <p>Welcome, <%= user.userName %>!</p>
                     <h4>My Plants:</h4>
+                    <p>Manage your plants by changing the plant's name (if you have multiple of the same species), uploading your own photos or clicking the watering can to mark your plant as watered today.</p>
                 </div>
                 <% if (plants.length > 0) { %>
                     <% for (let plant of plants) { %>
                         <div class="col s12 m4">
                             <div id ="card" class="card">
                                 <div class="card-image waves-effect waves-block waves-light">
-                                    <img class="activator" src="<%= plant.image_url %>">
+                                    <% if (plant.image_url.split('/')[0] === 'images') { %>
+                                        <img class="activator" src="/<%= plant.image_url %>">
+                                    <% } else { %>
+                                        <img class="activator" src="<%= plant.image_url %>">
+                                    <% } %>
                                 </div>
                                 <div class="card-content">
                                     <% if (plant.common_name !== null) { %>
@@ -24,6 +29,7 @@
                                     <p>Last Watered: <%= plant.lastWatered %></span></p>
                                     <div class="click-to-top">
                                         <form action="/account/home?water=true" method="POST">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                             <button id="water" class="btn" type="submit"><img class="can" title="Tap to mark as watered today" src="/images/can.png" alt="watering can"/></button>
                                             <input type="hidden" name="_id" value="<%= plant._id %>">
                                             <input type="hidden" name="lastWatered" value="<%= plant.lastWatered %>">
@@ -40,8 +46,10 @@
                                     <p><a class="btn" href="/account/edit-plant/<%= plant._id %>?edit=true">Edit Your Plant</a>
                                     <input type="hidden" name="_id" value="<%= plant._id %>">
                                     <input type="hidden" name="slug" value="<%= plant.slug %>">
+                                    <input type="hidden" name="image_url" value="<%= plant.image_url %>">
                                     <input type="hidden" name="lastWatered" value="<%= plant.lastWatered %>"></p>
                                     <form action="/account/home?delete=true" method="POST">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                         <button id="delete" class="btn" type="submit">Delete Your Plant</button>
                                         <input type="hidden" name="_id" value="<%= plant._id %>">
                                     </form>
@@ -51,7 +59,7 @@
                     <% } %>
                 <% } else { %>
                     <div class="col s12">
-                        <p>Add some plants!</p>
+                        <p>Add some <a href="/plants">plants</a>!</p>
                     </div>
                 <% } %>
             </div>

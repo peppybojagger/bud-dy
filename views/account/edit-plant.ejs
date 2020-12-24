@@ -4,16 +4,23 @@
     <div class="container">
         <div class="row">
             <h1>Edit <%= plant.common_name %></h1>
-            <form class="col s12" action="/account/edit-plant" method="POST">
+            <form class="col s12" action="/account/edit-plant" method="POST" enctype="multipart/form-data">  
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="row">
                     <div class="input-field col m4 s12">
                         <label for="common_name">Custom Name</label>
                         <input type="text" name="common_name" value="<%= plant.common_name %>">
                     </div>
-                    <div class="input-field col m4 s12">
-                        <label for="image_url">Custom Image</label>
-                        <input type="text" name="image_url" value="<%= plant.image_url %>">
-                    </div>
+                    <div class="file-field input-field col m4 s12">
+                        <label class="picupload" for="image">Custom Image</label>
+                        <div class="btn">
+                          <span>File</span>
+                          <input type="file" name="image">
+                        </div>
+                        <div class="file-path-wrapper">
+                          <input class="file-path validate" type="text">
+                        </div>
+                      </div>
                     <div class="input-field col m4 s12">
                         <% if (plant.lastWatered) { %>
                             <label>Last Watered</label>
@@ -26,6 +33,7 @@
                     <div class="col s12">
                         <button class="waves-effect waves-light btn" type="submit">UPDATE</button>
                         <input type="hidden" name="_id" value="<%= plant._id %>">
+                        <input type="hidden" name="image_url" value="<%= plant.image_url %>">
                     </div>
                 </div>
             </form>

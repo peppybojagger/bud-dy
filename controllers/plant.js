@@ -4,9 +4,10 @@ const path = require('path');
 const plant = require('../models/plant');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
-async function getAPI(st, q) {
+async function getAPI(st, q, p) {
     const key = process.env.API_KEY;
     let urlAPI;
+    let page;
     if (st === 'search') {
         const plantName = q;
         urlAPI = `https://trefle.io/api/v1/plants/search${key}&q=${plantName}`;
@@ -17,76 +18,82 @@ async function getAPI(st, q) {
         const genus = q;
         urlAPI = `https://trefle.io/api/v1/genus/${genus}/plants${key}`;
     } else {
-        urlAPI = `https://trefle.io/api/v1/plants${key}`;
+        page = p;
+        urlAPI = `https://trefle.io/api/v1/plants${key}&page=${page}`;
     }
     const response = await fetch(urlAPI);
 	const json = await response.json();
     const plants = json;
     return plants;
  }
-  
+ 
 exports.getPlantsPage = (req, res, next) => {
-    getAPI().then(plants => {
+    let page = req.query.page;
+    if (!page) page = 1;
+    let currentPage = req.url.split('=');
+    currentPage = currentPage[1];
+    getAPI('plants', null, page)
+    .then(plants => {
+        const plntCount = plants.meta.total;
+        const perPage = 20;
+        const pageCount = Math.ceil(plntCount / perPage);
+        let curPage = parseInt(req.query.page) - 1;
+        let pages = [];
+        for (var i = 1; i <= pageCount; i++) {
+            pages.push(i);
+        }
+        if (!curPage) {
+            curPage = 0;
+        }
+        const end = curPage + 5;
+        pages = pages.slice(curPage, end);
+        const currentPage = pages[0];
         res.render('plants', {
             pageTitle: 'Plants',
             path: '/plants',
             plants: plants,
-            isAuth: req.session.isLoggedIn,
-            noFoot: false
+            pages: pages,
+            pageCount: pageCount,
+            currentPage: currentPage,
+            noFoot: false,
+            searching: false
         });
     });
 };
 
 exports.postFindPlant = (req, res) => {
     const q = req.body.searchPlant;
-    getAPI('search', q).then(plants => {
+    getAPI('search', q, null).then(plants => {
         res.render('plants', {
 			pageTitle: 'Plants',
 			path: '/plants',
-			plants: plants,
-            isAuth: req.session.isLoggedIn,
-            noFoot: false
+            plants: plants,
+            noFoot: false,
+            searching: true
 	    });
     });
 };
 
 exports.getPlantDetails = (req, res, next) => {
     const q = req.params.slug;
-    getAPI('details', q).then(plant => {
+    getAPI('details', q, null).then(plant => {
         res.render('plant-details', {
             plant: plant,
             pageTitle: plant.data.common_name,
             path: '/plants',
-            isAuth: req.session.isLoggedIn,
             noFoot: false
         });
-        // var modal = req.body.imgModal;
-        // console.log(modal);
-        // var img = req.body.plant_parts;
-        // console.log(img);
-        // var modalImg = req.body.img_l;
-        // console.log(modalImg);
-        // img.onclick = function(){
-        //     console.log('click');
-        //     modal.style.display = "block";
-        //     modalImg.src = this.src;
-        // }
-        // var span = req.body.close;
-        // span.onclick = function() {
-        //     modal.style.display = "none";
-        // }
     });
 };
 
 exports.getGenus = (req, res, next) => {
     const q = req.params.genus;
-    getAPI('genus', q)
+    getAPI('genus', q, null)
     .then(plants => {
         res.render('genus', {
             plants: plants,
             pageTitle: plants.data.genus,
             path: '/plants',
-            isAuth: req.session.isLoggedIn,
             noFoot: false
         });
     });
@@ -102,7 +109,6 @@ exports.getAccountPage = (req, res, next) => {
             pageTitle: 'Plants',
             path: '/account',
             plants: plants,
-            isAuth: req.session.isLoggedIn,
             noFoot: false,
             user: user
         });
@@ -127,11 +133,11 @@ exports.postWaterAddDeletePlant = (req, res, next) => {
         const dbId = req.body._id;
         Plant.findById(dbId)
         .then(plant => {
-            var full = new Date();
-            var year = full.getFullYear();
-            var month = full.getMonth()+1;
-            var day = full.getDate();
-            var today = `${year}-${month}-${day}`;
+            const full = new Date();
+            const year = full.getFullYear();
+            const month = full.getMonth()+1;
+            const day = full.getDate();
+            const today = `${year}-${month}-${day}`;
             plant.lastWatered = today.toString();
             return plant.save();
         }).then(result => {
@@ -181,7 +187,6 @@ exports.getEditPlant = (req, res, next) => {
             path: '/account',
             plant: plant,
             edit: editMode,
-            isAuth: req.session.isLoggedIn,
             noFoot: false
         });
     }).catch(err => {
@@ -191,13 +196,18 @@ exports.getEditPlant = (req, res, next) => {
 
 exports.postEditPlant = (req, res, next) => {
     const updatedName = req.body.common_name;
-    const updatedImg = req.body.image_url;
     const updatedDate = req.body.watered;
     const dbId = req.body._id;
+    let updatedImg;
+    if (!req.file) {
+        updatedImg = req.body.image_url;
+    } else {
+        updatedImg = req.file.path;
+    }
     Plant.findById(dbId)
     .then(plant => {
-        plant.common_name = updatedName;
         plant.image_url = updatedImg;
+        plant.common_name = updatedName;
         plant.lastWatered = updatedDate;
         return plant.save();
     })

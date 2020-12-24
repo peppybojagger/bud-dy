@@ -31,6 +31,7 @@
           <p>Genus: <a href="/genus/<%= plant.data.genus.name %>"><%= plant.data.genus.name %></a>   |   Family: <%= plant.data.family.name %></p>
           <% if (isAuth) { %>
           <form action="/account/home" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button class="btn" type="submit">Add To My Plants</button>
             <input type="hidden" name="common_name" value="<%= plant.data.common_name %>">
             <input type="hidden" name="scientific_name" value="<%= plant.data.scientific_name %>">

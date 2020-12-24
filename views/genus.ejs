@@ -7,17 +7,6 @@
                 <h1><%= plants.data[0].genus %></h1>
                 <p>Genus of the <%= plants.data[0].family %> Family with <%= plants.meta.total %> Species.</p>
             </div>
-            <div class="col m4 sm12">
-                <ul class="pagination right">
-                    <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="/plants/page=1">1</a></li>
-                    <li class="waves-effect"><a href="/plants/page=2">2</a></li>
-                    <li class="waves-effect"><a href="/plants/page=3">3</a></li>
-                    <li class="waves-effect"><a href="/plants/page=4">4</a></li>
-                    <li class="waves-effect"><a href="/plants/page=5">5</a></li>
-                    <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
-                  </ul>
-            </div>
         </div>
     </div>
     <div class="container">
@@ -48,6 +37,7 @@
                         <p><a class="btn" href="/plant-details/<%= plants.data[i].slug %>">Plant Details</a></p>
                         <% if (isAuth) { %>
                         <form action="/account/home" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button id="add" class="btn" type="submit">Add To My Plants</button>
                             <input type="hidden" name="common_name" value="<%= plants.data[i].common_name %>">
                             <input type="hidden" name="scientific_name" value="<%= plants.data[i].scientific_name %>">
@@ -61,17 +51,6 @@
                 </div>
             </div>
             <% } %>
-        </div>
-        <div class="col m6 sm12">
-            <ul class="pagination right">
-                <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
-                <li class="active"><a href="/plants/page=1">1</a></li>
-                <li class="waves-effect"><a href="/plants/page=2">2</a></li>
-                <li class="waves-effect"><a href="/plants/page=3">3</a></li>
-                <li class="waves-effect"><a href="/plants/page=4">4</a></li>
-                <li class="waves-effect"><a href="/plants/page=5">5</a></li>
-                <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
-              </ul>
         </div>
     </div>
 </main>

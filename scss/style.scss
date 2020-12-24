@@ -13,7 +13,7 @@ html, body {
 }
 main {
   display: flex;
-  min-height: 100vh;
+  min-height: 90vh;
   flex-direction: column;
 }
 h1 {
@@ -33,6 +33,9 @@ a {
 }
 a:hover {
   color: $secondary-color;
+}
+.small {
+  font-size: 12px;
 }
 nav {
   background-color: $secondary-color;
@@ -77,10 +80,23 @@ nav {
   background-color: $hover-color;
   color: #fff;
 }
-button, input, optgroup, select, textarea {
-  font-family: $font-stack;
+.input-field {
+  height: 50px;
 }
-input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+.input-field>label.picupload {
+  position: absolute;
+  top: -30px;
+  font-size: 14px;
+}
+.file-field {
+  .btn {
+    margin-top: 10px;
+    height: 2rem;
+    line-height: 2rem;
+  }
+}
+input:not([type]), input[type=file], input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+  font-family: $font-stack;
   border-bottom: 1px solid$hover-color;
   -webkit-box-shadow: 0 1px 0 0$hover-color;
   box-shadow: 0 1px 0 0$hover-color;
@@ -100,12 +116,10 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
   background-color:rgba(255, 255, 255, 0.75);
   border-radius: 3px;
   padding: 30px;
-  position: absolute;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  margin: 10vh auto;
+  .invalid {
+    border-color: red;
+  }
 }
 .intro {
   text-align: center;
@@ -206,6 +220,9 @@ i.spesh {
 .pagination li.active {
   background-color: $hover-color;
 }
+.double {
+  margin-left: -25px;
+}
 .center {
   width: fit-content;
   margin: 20px auto;
@@ -225,6 +242,16 @@ i.spesh {
     text-align: center;
   }
 }
+.user-message {
+  margin: auto;
+  width: 50%;
+  padding: 1rem;
+  color: #fff;
+  text-align: center;
+  background-color: $primary-color;
+  z-index: 1;
+  font-size: 14px;
+}
 // /* Extra small devices (phones, 600px and down) */
 // @media only screen and (max-width: 600px) {...}
 
@@ -233,7 +260,7 @@ i.spesh {
   nav {
     .nav-btn {
       height: 56px;
-      font-size: 14px;
+      font-size: 1rem;
     }
     .brand-logo {
       left: 7%;
@@ -253,10 +280,7 @@ i.spesh {
     position: absolute;
   }
   .login_form {
-    padding: 10px;
-    top: 22rem;
-    position: absolute;
-    height: unset;
+    margin: 28vh auto 0;
     .monstera {
       width: 72px;
     }
@@ -268,7 +292,20 @@ i.spesh {
     }
     br {
       display: none;
-    }   
+    } 
+  }
+  .paginationdiv {
+    width: 100%;
+  }
+  .pagination li i {
+    font-size: 1rem;
+  }
+  .pagination li a {
+    font-size: 1rem;
+    padding: 0 5px;
+  }
+  .center {
+    width: max-content;
   }
   h1 {
     font-size: 40px;
@@ -280,16 +317,18 @@ i.spesh {
     font-size: 25px;
   }
   .top_img {
-    width: 250px;
+    width: 100%;
     margin: 20px auto;
     height: auto;
   }
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
-// @media only screen and (max-width: 768px) {
-
-// }
+@media only screen and (max-width: 768px) {
+  .login_form {
+    margin: 35vh auto 0;
+  }
+}
 
 /* Large devices (laptops/desktops, 992px and up) */
 // @media only screen and (max-width: 992px) {

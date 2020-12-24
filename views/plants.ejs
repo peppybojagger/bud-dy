@@ -8,6 +8,7 @@
             </div>
             <div class="col m12 sm12">
                 <form action="/plants" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="input-field col m12 s12">
                         <label for="searchPlant">Enter Plant</label>
                         <input type="text" label="searchPlant" name="searchPlant">
@@ -17,17 +18,19 @@
                     </div>
                 </form>
             </div>
-            <div class="col m12 sm12">
+            <% if(!searching) { %>
+            <div class="col m12 sm12 paginationdiv">
                 <ul class="pagination center">
-                    <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="/plants/page=1">1</a></li>
-                    <li class="waves-effect"><a href="/plants/page=2">2</a></li>
-                    <li class="waves-effect"><a href="/plants/page=3">3</a></li>
-                    <li class="waves-effect"><a href="/plants/page=4">4</a></li>
-                    <li class="waves-effect"><a href="/plants/page=5">5</a></li>
-                    <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
+                    <li class="<%= pages[0] === 1 ? 'disabled' : '' %>"><a href="?page=1"><i class="material-icons">chevron_left</i><i class="material-icons double">chevron_left</i></a></li>
+                    <li class="<%= pages[0] === 1 ? 'disabled' : '' %>"><a href="?page=<%= currentPage - 1 %>"><i class="material-icons">chevron_left</i></a></li>
+                    <% for(var i=0; i < pages.length; i++) { %>
+                    <li class="waves-effect <%= pages[i] === currentPage ? 'active' : '' %>"><a href="?page=<%= pages[i] %>"><%= pages[i] %></a></li>
+                    <% } %>
+                    <li class="waves-effect"><a href="?page=<%= currentPage + 1 %>"><i class="material-icons">chevron_right</i></a></li>
+                    <li class="waves-effect"><a href="?page=<%= pageCount %>"><i class="material-icons">chevron_right</i><i class="material-icons double">chevron_right</i></a></li>
                   </ul>
             </div>
+            <% } %>
         </div>
     </div>
     <div class="container">
@@ -57,6 +60,7 @@
                         <p><a class="btn" href="/plant-details/<%= plants.data[i].slug %>">Plant Details</a></p>
                         <% if (isAuth) { %>
                         <form action="/account/home" method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button id="add" class="btn" type="submit">Add To My Plants</button>
                             <input type="hidden" name="common_name" value="<%= plants.data[i].common_name %>">
                             <input type="hidden" name="scientific_name" value="<%= plants.data[i].scientific_name %>">
@@ -72,17 +76,19 @@
             <% } %>
         </div>
         <div class="row">
-            <div class="col m12 s12">
-                <ul class="pagination center">
-                    <li class="disabled"><a href="/plants/page=prev"><i class="material-icons">chevron_left</i></a></li>
-                    <li class="active"><a href="/plants/page=1">1</a></li>
-                    <li class="waves-effect"><a href="/plants/page=2">2</a></li>
-                    <li class="waves-effect"><a href="/plants/page=3">3</a></li>
-                    <li class="waves-effect"><a href="/plants/page=4">4</a></li>
-                    <li class="waves-effect"><a href="/plants/page=5">5</a></li>
-                    <li class="waves-effect"><a href="/plants/page=next"><i class="material-icons">chevron_right</i></a></li>
-                  </ul>
-            </div>
+            <% if(!searching) { %>
+                <div class="col m12 sm12 paginationdiv">
+                    <ul class="pagination center">
+                        <li class="<%= pages[0] === 1 ? 'disabled' : '' %>"><a href="?page=1"><i class="material-icons">chevron_left</i><i class="material-icons double">chevron_left</i></a></li>
+                        <li class="<%= pages[0] === 1 ? 'disabled' : '' %>"><a href="?page=<%= currentPage - 1 %>"><i class="material-icons">chevron_left</i></a></li>
+                        <% for(var i=0; i < pages.length; i++) { %>
+                        <li class="waves-effect <%= pages[i] === currentPage ? 'active' : '' %>"><a href="?page=<%= pages[i] %>"><%= pages[i] %></a></li>
+                        <% } %>
+                        <li class="waves-effect"><a href="?page=<%= currentPage + 1 %>"><i class="material-icons">chevron_right</i></a></li>
+                        <li class="waves-effect"><a href="?page=<%= pageCount %>"><i class="material-icons">chevron_right</i><i class="material-icons double">chevron_right</i></a></li>
+                      </ul>
+                </div>
+            <% } %>
         </div>
     </div>
 </main>
