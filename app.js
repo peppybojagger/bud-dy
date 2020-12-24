@@ -66,7 +66,7 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         fontSrc: ["'self'", "'unsafe-inline'", 'https://fonts.gstatic.com'],
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js', 'https://www.googletagmanager.com/*'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js', 'https://www.googletagmanager.com/gtag/js?id=G-C6T40YW85B'],
         styleSrc: ["'self'", "'unsafe-inline'",  'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'],
         imgSrc: ["*", 'data:'],
         connectSrc: ["'self'"],
