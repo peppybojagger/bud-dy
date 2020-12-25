@@ -10,6 +10,8 @@ const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+var multerS3 = require('multer-s3');
+var aws = require('aws-sdk');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -18,6 +20,13 @@ const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 const app = express();
+
+const s3_ID = process.env.s3_ID;
+const s3_KEY = process.env.s3_KEY;
+const s3 = new aws.S3({
+  accessKeyId: s3_ID,
+  secretAccessKey: s3_KEY
+});
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
@@ -28,14 +37,14 @@ const store = new MongoDBStore({
 const csrfProtection = csrf();
 // const privateKey = fs.readFileSync('server.key');
 // const certificate = fs.readFileSync('server.cert');
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'images');
-    },
-    filename: (req, file, cb) => {
-      cb(null, new Date().toISOString() + '-' + file.originalname);
-    }
-  });
+// const fileStorage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, 'images');
+//     },
+//     filename: (req, file, cb) => {
+//       cb(null, new Date().toISOString() + '-' + file.originalname);
+//     }
+//   });
 const fileFilter = (req, file, cb) => {
     if (
       file.mimetype === 'image/png' ||
@@ -51,11 +60,30 @@ const fileFilter = (req, file, cb) => {
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-    multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
-  );
+// app.use(
+//     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+// );
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'buddyimages',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString())
+    }
+  }),
+  fileFilter: fileFilter
+})
+ 
+app.post('/upload', upload.array('photos', 3), function(req, res, next) {
+  res.send('Successfully uploaded ' + req.files.length + ' files!')
+})
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
 
 app.use(csrfProtection);
