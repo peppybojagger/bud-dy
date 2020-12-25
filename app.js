@@ -10,8 +10,6 @@ const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
-const multerS3 = require('multer-s3');
-const aws = require('aws-sdk');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -20,16 +18,6 @@ const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 const app = express();
-
-const s3_ID = process.env.s3_ID;
-const s3_KEY = process.env.s3_KEY;
-aws.config.update({
-  secretAccessKey: s3_KEY,
-  accessKeyId: s3_ID,
-  region: 'us-east-2'
-});
-
-s3 = new aws.S3();
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
@@ -40,14 +28,14 @@ const store = new MongoDBStore({
 const csrfProtection = csrf();
 // const privateKey = fs.readFileSync('server.key');
 // const certificate = fs.readFileSync('server.cert');
-// const fileStorage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//       cb(null, 'images');
-//     },
-//     filename: (req, file, cb) => {
-//       cb(null, new Date().toISOString() + '-' + file.originalname);
-//     }
-//   });
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+      cb(null, new Date().toISOString() + '-' + file.originalname);
+    }
+  });
 const fileFilter = (req, file, cb) => {
     if (
       file.mimetype === 'image/png' ||
@@ -63,31 +51,11 @@ const fileFilter = (req, file, cb) => {
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-// app.use(
-//     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
-// );
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: 'buddyimages',
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
-    },
-    key: function (req, file, cb) {
-      cb(null, Date.now().toString())
-    }
-  }),
-  fileFilter: fileFilter
-})
- 
-app.post('/account/edit-plant', upload.array('upl',1), function (req, res, next) {
-  res.send("Uploaded!");
-});
-
+app.use(
+    multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+  );
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
 
 app.use(csrfProtection);
@@ -98,10 +66,10 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         fontSrc: ["'self'", "'unsafe-inline'", 'https://fonts.gstatic.com'],
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js', 'https://www.googletagmanager.com'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'],
         styleSrc: ["'self'", "'unsafe-inline'",  'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'],
-        imgSrc: ["*", 'data:', 'www.googletagmanager.com'],
-        connectSrc: ["'self'", 'https://www.google-analytics.com', 'www.google-analytics.com', 'https://stats.g.doubleclick.net'],
+        imgSrc: ["*", 'data:'],
+        connectSrc: ["'self'"],
         frameSrc: ["'self'"],
       },
     }
