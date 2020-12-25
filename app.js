@@ -10,8 +10,8 @@ const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
-var multerS3 = require('multer-s3');
-var aws = require('aws-sdk');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -23,10 +23,13 @@ const app = express();
 
 const s3_ID = process.env.s3_ID;
 const s3_KEY = process.env.s3_KEY;
-const s3 = new aws.S3({
+aws.config.update({
+  secretAccessKey: s3_KEY,
   accessKeyId: s3_ID,
-  secretAccessKey: s3_KEY
+  region: 'us-east-2'
 });
+
+s3 = new aws.S3();
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
@@ -60,6 +63,7 @@ const fileFilter = (req, file, cb) => {
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 // app.use(
 //     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
 // );
@@ -78,9 +82,9 @@ const upload = multer({
   fileFilter: fileFilter
 })
  
-app.post('/upload', upload.array('photos', 3), function(req, res, next) {
-  res.send('Successfully uploaded ' + req.files.length + ' files!')
-})
+app.post('/account/edit-plant', upload.array('upl',1), function (req, res, next) {
+  res.send("Uploaded!");
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use('/images', express.static(path.join(__dirname, 'images')));
