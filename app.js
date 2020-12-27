@@ -10,6 +10,8 @@ const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const aws = require('aws-sdk');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -17,7 +19,14 @@ const morgan = require('morgan');
 const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
+aws.config.update({
+  secretAccessKey: process.env.s3_KEY,
+  accessKeyId: process.env.s3_ID,
+  region: 'us-east-2'
+});
+
 const app = express();
+const s3 = new aws.S3();
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
@@ -28,34 +37,48 @@ const store = new MongoDBStore({
 const csrfProtection = csrf();
 // const privateKey = fs.readFileSync('server.key');
 // const certificate = fs.readFileSync('server.cert');
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, 'images');
-    },
-    filename: (req, file, cb) => {
-      cb(null, new Date().toISOString() + '-' + file.originalname);
-    }
-  });
+// const fileStorage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, 'images');
+//     },
+//     filename: (req, file, cb) => {
+//       cb(null, new Date().toISOString() + '-' + file.originalname);
+//     }
+// });
 const fileFilter = (req, file, cb) => {
-    if (
-      file.mimetype === 'image/png' ||
-      file.mimetype === 'image/jpg' ||
-      file.mimetype === 'image/jpeg'
-    ) {
-      cb(null, true);
-    } else {
-      cb(null, false);
-    }
-  };
+  if (
+    file.mimetype === 'image/png' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/jpeg'
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: multerS3({
+      s3: s3,
+      acl: 'public-read',
+      bucket: 'buddyimages',
+      fileFilter: fileFilter,
+      key: function (req, file, cb) {
+          console.log(file);
+          cb(null, new Date().toISOString() + '-' + file.originalname);
+      }
+  })
+});
 
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-    multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
-  );
+// app.use(
+//     multer({ storage: fileStorage, fileFilter: fileFilter }).single('image')
+// );
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(session({secret: 'my secret', resave: false, saveUninitialized: false, store: store}));
 
 app.use(csrfProtection);
@@ -80,20 +103,20 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'),
 app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use((req, res, next) => {
-    if (!req.session.user) {
-        return next();
-    }
-    User.findById(req.session.user._id)
-    .then(user => {
-        if (!user) {
-            return next();
-        }
-        req.user = user;
-        next();
-    })
-    .catch(err => {
-        throw new Error(err);
-    })
+  if (!req.session.user) {
+      return next();
+  }
+  User.findById(req.session.user._id)
+  .then(user => {
+      if (!user) {
+          return next();
+      }
+      req.user = user;
+      next();
+  })
+  .catch(err => {
+      throw new Error(err);
+  })
 });
 
 app.use((req, res, next) => {

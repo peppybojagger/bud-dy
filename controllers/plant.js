@@ -202,7 +202,7 @@ exports.postEditPlant = (req, res, next) => {
     if (!req.file) {
         updatedImg = req.body.image_url;
     } else {
-        updatedImg = req.file.path;
+        updatedImg = upload.single('image');
     }
     Plant.findById(dbId)
     .then(plant => {
