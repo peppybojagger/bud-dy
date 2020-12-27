@@ -20,8 +20,8 @@ const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 aws.config.update({
-  secretAccessKey: 'yyoekfXXNpfxxQ6iJlIRl0cHkwaKFG4HEc3QL1Vo',
-  accessKeyId: 'AKIAIKEGTLNU4PBNL3HQ',
+  secretAccessKey: process.env.s3_KEY,
+  accessKeyId: process.env.s3_ID,
   region: 'us-east-2'
 });
 
@@ -60,7 +60,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: multerS3({
       s3: s3,
-      acl: 'PutObject',
+      acl: 'public-read',
       bucket: 'buddyimages',
       fileFilter: fileFilter,
       key: function (req, file, cb) {
