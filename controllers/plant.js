@@ -1,7 +1,10 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
-const plant = require('../models/plant');
+const aws = require('aws-sdk');
+const multer = require('multer');
+const multers3 = require('multer-s3');
+
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q, p) {
@@ -202,7 +205,29 @@ exports.postEditPlant = (req, res, next) => {
     if (!req.file) {
         updatedImg = req.body.image_url;
     } else {
-        updatedImg = req.file.path;
+        const s3 = new aws.S3();
+        aws.config.region = 'eu-west-1';
+        const fileName = req.query['file-name'];
+        const fileType = req.query['file-type'];
+        const s3Params = {
+            Bucket: S3_BUCKET,
+            Key: fileName,
+            ContentType: fileType,
+            ACL: 'public-read'
+        };
+        s3.getSignedUrl('putObject', s3Params, (err, data) => {
+            if(err){
+              console.log(err);
+              return res.end();
+            }
+            const returnData = {
+              signedRequest: data,
+              url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+            };
+            res.write(JSON.stringify(returnData));
+            res.end();
+            updatedImg = returnData;
+        });
     }
     Plant.findById(dbId)
     .then(plant => {
