@@ -20,8 +20,8 @@ const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 aws.config.update({
-  secretAccessKey: process.env.s3_KEY,
-  accessKeyId: process.env.s3_ID,
+  secretAccessKey: 'yyoekfXXNpfxxQ6iJlIRl0cHkwaKFG4HEc3QL1Vo',
+  accessKeyId: 'AKIAIKEGTLNU4PBNL3HQ',
   region: 'us-east-2'
 });
 
