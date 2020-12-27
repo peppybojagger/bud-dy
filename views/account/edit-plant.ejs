@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <h1>Edit <%= plant.common_name %></h1>
-            <form class="col s12" action="/account/edit-plant?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data">  
+            <form class="col s12" action="/account/edit-plant" method="POST" enctype="multipart/form-data">  
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <div class="row">
                     <div class="input-field col m4 s12">

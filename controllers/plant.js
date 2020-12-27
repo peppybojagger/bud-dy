@@ -1,7 +1,7 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
-const upload = require('../middleware/file-upload');
+const plant = require('../models/plant');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q, p) {
@@ -202,13 +202,7 @@ exports.postEditPlant = (req, res, next) => {
     if (!req.file) {
         updatedImg = req.body.image_url;
     } else {
-        const singleImg = upload.single('image');
-        console.log('singleImg: ' + singleImg);
-        singleImg = (req, res, cb => {
-            console.log('imgURL: ' + imgURL);
-            const imgURL = res.json({'imageURL': req.file.location});
-        });
-        updatedImg = imgURL;
+        updatedImg = req.file.path;
     }
     Plant.findById(dbId)
     .then(plant => {
