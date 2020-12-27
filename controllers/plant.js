@@ -1,7 +1,6 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
-const plant = require('../models/plant');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q, p) {
@@ -202,7 +201,7 @@ exports.postEditPlant = (req, res, next) => {
     if (!req.file) {
         updatedImg = req.body.image_url;
     } else {
-        updatedImg = req.file.path;
+        updatedImg = req.file.location;
     }
     Plant.findById(dbId)
     .then(plant => {

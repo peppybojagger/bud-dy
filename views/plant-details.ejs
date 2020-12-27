@@ -93,7 +93,7 @@
         <div class="col m12">
           <h3><i class="spesh material-icons">image</i>Images</h3>
           <div class="col s12">
-          <% if (plant.data.main_species.images.flower.length) { %>
+          <% if (plant.data.main_species.images.flower) { %>
             <h4>Flower</h4>
             <% for(var i=0; i < plant.data.main_species.images.flower.length; i++) { %>
               <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.flower[i].image_url %>" alt="<%= plant.data.common_name %> flower">
@@ -101,7 +101,7 @@
           <% } %>
           </div>
           <div class="col s12">
-          <% if (plant.data.main_species.images.leaf.length) { %>
+          <% if (plant.data.main_species.images.leaf) { %>
             <h4>Leaf</h4>
             <% for(var i=0; i < plant.data.main_species.images.leaf.length; i++) { %>
               <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.leaf[i].image_url %>" alt="<%= plant.data.common_name %> leaf">
@@ -109,7 +109,7 @@
           <% } %>
           </div>
           <div class="col s12">
-          <% if (plant.data.main_species.images.fruit.length) { %>
+          <% if (plant.data.main_species.images.fruit) { %>
             <h4>Fruit</h4>
             <% for(var i=0; i < plant.data.main_species.images.fruit.length; i++) { %>
               <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.fruit[i].image_url %>" alt="<%= plant.data.common_name %> fruit">
@@ -117,7 +117,7 @@
           <% } %>
           </div>
           <div class="col s12">
-          <% if (plant.data.main_species.images.bark.length) { %>
+          <% if (plant.data.main_species.images.bark) { %>
             <h4>Bark / Stem</h4>
             <% for(var i=0; i < plant.data.main_species.images.bark.length; i++) { %>
               <img class="plant_parts" name="plant_parts" src="<%= plant.data.main_species.images.bark[i].image_url %>" alt="<%= plant.data.common_name %> bark">
