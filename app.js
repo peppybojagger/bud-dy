@@ -9,9 +9,6 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const User = require('./models/user');
 const csrf = require('csurf');
 const flash = require('connect-flash');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
-const aws = require('aws-sdk');
 const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
@@ -19,14 +16,7 @@ const morgan = require('morgan');
 const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
-aws.config.update({
-  secretAccessKey: process.env.s3_KEY,
-  accessKeyId: process.env.s3_ID,
-  region: 'us-east-2'
-});
-
 const app = express();
-const s3 = new aws.S3();
 
 const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
@@ -45,29 +35,6 @@ const csrfProtection = csrf();
 //       cb(null, new Date().toISOString() + '-' + file.originalname);
 //     }
 // });
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/jpeg'
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({
-  storage: multerS3({
-      s3: s3,
-      bucket: 'buddyimages',
-      fileFilter: fileFilter,
-      key: function (req, file, cb) {
-          console.log(file);
-          cb(null, new Date().toISOString() + '-' + file.originalname);
-      }
-  })
-});
 
 app.set('view engine', 'ejs');
 

@@ -2,6 +2,7 @@ const Plant = require('../models/plant');
 const fetch = require('node-fetch');
 const path = require('path');
 const plant = require('../models/plant');
+const upload = require('../middleware/file-upload');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q, p) {
