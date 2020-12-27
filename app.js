@@ -60,7 +60,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: multerS3({
       s3: s3,
-      acl: 'public-read',
+      acl: 'PutObject',
       bucket: 'buddyimages',
       fileFilter: fileFilter,
       key: function (req, file, cb) {
