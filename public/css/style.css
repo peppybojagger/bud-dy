@@ -134,6 +134,7 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
     -webkit-transition: all 0.8s;
     moz-transition: all 0.8s;
     transition: all 0.8s;
+    -webkit-transform: translate3d(0, 0, 0);
     width: 30px; }
   .card .card-content .click-to-top img:hover {
     width: 35px; }

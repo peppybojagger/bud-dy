@@ -87,12 +87,12 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        defaultSrc: ["'self'"],
+        defaultSrc: ["'self'", "'unsafe-inline'"],
         fontSrc: ["'self'", "'unsafe-inline'", 'https://fonts.gstatic.com'],
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'www.googletagmanager.com', 'https://www.google-analytics.com', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js'],
         styleSrc: ["'self'", "'unsafe-inline'",  'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css'],
-        imgSrc: ["*", 'data:'],
-        connectSrc: ["'self'"],
+        imgSrc: ["*", 'data:', 'www.googletagmanager.com'],
+        connectSrc: ["'self'", 'https://www.google-analytics.com', 'www.google-analytics.com', 'https://stats.g.doubleclick.net'],
         frameSrc: ["'self'"],
       },
     }
