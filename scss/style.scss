@@ -1,5 +1,3 @@
-@import 'modal';
-
 $font-stack: 'Montserrat Alternates', sans-serif;;
 $logo-font-stack: 'Pacifico', cursive;
 $primary-color: #214012;
@@ -258,6 +256,7 @@ i.spesh {
   margin-top: -60px;
   img {
     width: 30px;
+    z-index: 1;
   }
 }
 
@@ -335,6 +334,7 @@ i.spesh {
     position: relative;
     img {
       width: 20px;
+      z-index: 1;
     }
   }
 }
@@ -351,6 +351,7 @@ i.spesh {
     position: relative;
     img {
       width: 20px;
+      z-index: 1;
     }
   }
 }
@@ -363,6 +364,7 @@ i.spesh {
     margin-top: -60px;
     img {
       width: 30px;
+      z-index: 1;
     }
   }
 }
