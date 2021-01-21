@@ -304,6 +304,12 @@ i.spesh {
       visibility: visible; }
     nav .brand-logo .monstera {
       width: 70px; }
+  .card .card-reveal {
+    padding: 10px; }
+    .card .card-reveal .btn, .card .card-reveal .btn-large, .card .card-reveal .btn-small, .card .card-reveal .btn-flat {
+      padding: 0 10px;
+      width: max-content;
+      font-size: 12px; }
   .card .card-content .click-to-top {
     float: inherit;
     margin-top: 10px;

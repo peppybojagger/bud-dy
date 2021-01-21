@@ -384,6 +384,14 @@ i.spesh {
     }
   }
   .card {
+    .card-reveal {
+      padding: 10px;
+      .btn, .btn-large, .btn-small, .btn-flat {
+        padding: 0 10px;
+        width: max-content;
+        font-size: 12px;
+      }
+    }
     .card-content {
       .click-to-top {
         float: inherit;
