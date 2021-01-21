@@ -1,7 +1,5 @@
 const Plant = require('../models/plant');
 const fetch = require('node-fetch');
-const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 async function getAPI(st, q, p) {
     const key = process.env.API_KEY;

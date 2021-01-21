@@ -1,0 +1,16 @@
+{
+    "name": "Bud-dy",
+    "short_name": "bud-dy",
+    "description": "Bud-dy is a gardening and houseplant management app using Trefle's botanical data source API.",
+    "icons": [
+      {
+        "src": "./images/monstera.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "display": "fullscreen",
+    "theme_color": "#F9B79D",
+    "background_color": "#F9B79D"
+  }

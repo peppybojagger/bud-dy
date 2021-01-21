@@ -1,14 +1,11 @@
-
-function water() {
-    const can = document.getElementById('#delete');
-    can.addEventListener("onclick", (e) => {
-            const lastWatered = req.body.lastWatered;
-            const today = new Date();
-            plant.lastWatered = today;
-            console.log(plant);
-            plant.save();
-        });
-    console.log('Can: ' + can);
-}
-
-water();
+document.addEventListener('DOMContentLoaded', init, false);
+function init() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then((reg) => {
+        console.log('Service worker registered -->', reg);
+      }, (err) => {
+        console.error('Service worker not registered -->', err);
+      });
+  }
+};
