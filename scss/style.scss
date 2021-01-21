@@ -11,7 +11,7 @@ html, body {
 }
 main {
   display: flex;
-  min-height: 90vh;
+  min-height: 100vh;
   flex-direction: column;
 }
 h1 {
@@ -46,6 +46,7 @@ nav {
     font-family: $logo-font-stack;
     .monstera {
       width: 70px;
+      height: auto;
       float: left;
       margin-top: 10px;
       margin-right: 10px;
@@ -100,13 +101,10 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
   box-shadow: 0 1px 0 0$hover-color;
 }
 .main_bg_img {
-  min-height: 100%;
-  width: 100%;
-  height: auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -100;
+  background-image: url('../images/index_bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
 }
 .login_form {
   width: fit-content;
@@ -127,6 +125,7 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
   }
   .monstera {
     width: 100px;
+    height: auto;
   }
   .input-field>label {
     font-size: 16px;
@@ -277,19 +276,16 @@ i.spesh {
       }
       .monstera {
         width: 42px;
+        height: auto;
         margin-top: 5px;
       }  
     }
-  }
-  .main_bg_img {
-    min-height: 0;
-    top: 30px;
-    position: absolute;
   }
   .login_form {
     margin: 28vh auto 0;
     .monstera {
       width: 72px;
+      height: auto;
     }
     h1 {
       font-size: 35px;
@@ -300,6 +296,9 @@ i.spesh {
     br {
       display: none;
     } 
+  }
+  .login_form.signup {
+    margin: 10vh auto 0;
   }
   .paginationdiv {
     width: 100%;
@@ -342,9 +341,15 @@ i.spesh {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
-  .login_form {
-    margin: 35vh auto 0;
+  nav .brand-logo {
+    left: 20%;
   }
+  .login_form {
+    margin: 18vh auto 0;
+  }
+  .login_form.signup {
+    margin: 15vh auto 0;
+}
   .card .card-content .click-to-top {
     float: none;
     max-width: 60px;
@@ -359,6 +364,9 @@ i.spesh {
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (max-width: 992px) {
+  .login_form {
+    margin: 35vh auto 0;
+  }
   .card .card-content .click-to-top {
     float: right;
     max-width: 150px;
