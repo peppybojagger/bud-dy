@@ -44,6 +44,9 @@ nav {
     margin-left: 10px;
     color: $hover-color;
     font-family: $logo-font-stack;
+    #text {
+      visibility: visible;
+    }
     .monstera {
       width: 70px;
       height: auto;
@@ -260,9 +263,29 @@ i.spesh {
   }
 }
 
+@media only screen and (max-width: 568px) and (min-width: 320px) {
+  nav {
+    .nav-btn {
+      height: 56px;
+      font-size: 1rem;
+    }
+    .brand-logo {
+      display: none;
+    }
+  }
+  h1 {
+    font-size: 35px;
+  }
+  p {
+    font-size: 14px;
+  }
+  br {
+    display: none;
+  } 
+}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 812px) and (min-width: 375px) {
   nav {
     .nav-btn {
       height: 56px;
@@ -271,6 +294,7 @@ i.spesh {
     .brand-logo {
       left: 7%;
       font-size: 0;
+      display: inherit;
       #text {
         visibility: hidden;
       }
@@ -278,11 +302,12 @@ i.spesh {
         width: 42px;
         height: auto;
         margin-top: 5px;
+        display: inherit;
       }  
     }
   }
   .login_form {
-    margin: 28vh auto 0;
+    margin: 15vh auto 0;
     .monstera {
       width: 72px;
       height: auto;
@@ -338,42 +363,22 @@ i.spesh {
     }
   }
 }
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (max-width: 768px) {
-  nav .brand-logo {
-    left: 20%;
+@media only screen and (max-width: 1366px) and (min-width: 768px) {
+  nav {
+    .brand-logo {
+      left: 7%;
+      #text {
+        visibility: visible;
+      }
+      .monstera {
+        width: 70px;
+      }  
+    }
   }
   .login_form {
-    margin: 18vh auto 0;
+    margin: 25vh auto 0;
   }
   .login_form.signup {
-    margin: 15vh auto 0;
-}
-  .card .card-content .click-to-top {
-    float: none;
-    max-width: 60px;
-    margin-top: 0px;
-    position: relative;
-    img {
-      width: 20px;
-      z-index: 1;
-    }
-  }
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (max-width: 992px) {
-  .login_form {
-    margin: 35vh auto 0;
-  }
-  .card .card-content .click-to-top {
-    float: right;
-    max-width: 150px;
-    margin-top: -60px;
-    img {
-      width: 30px;
-      z-index: 1;
-    }
+    margin: 10vh auto 0;
   }
 }
