@@ -10,9 +10,7 @@ html, body {
   height: 100%;
 }
 main {
-  display: flex;
   min-height: 100vh;
-  flex-direction: column;
 }
 h1 {
   color: $primary-color;
@@ -58,6 +56,9 @@ nav {
   ul a:hover {
     background-color: #fff;
   }
+  ul li {
+    font-size: 16px;
+  }
   .nav-btn {
     -webkit-transition: background-color .3s;
     transition: background-color .3s;
@@ -68,6 +69,8 @@ nav {
     transition: background-color .3s;
     height: 64px;
     font-size: 16px;
+    line-height: 64px;
+    font: 110% "Montserrat Alternates", sans-serif;
   }
   .btn-flat:focus, .btn-flat:hover {
     background-color: #fff;
@@ -93,7 +96,7 @@ nav {
   background-image: url('../images/index_bg.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center bottom;
+  background-position: center bottom; 
 }
 .login_form {
   width: fit-content;
@@ -105,6 +108,9 @@ nav {
   .invalid {
     border-color: red;
   }
+}
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea, input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid $hover-color;
 }
 .intro {
   text-align: center;
@@ -251,7 +257,10 @@ i.spesh {
   nav {
     .nav-btn {
       height: 56px;
-      font-size: 1rem;
+      font-size: 14px;
+    }
+    ul a {
+      font-size: 14px;
     }
     .brand-logo {
       display: none;
@@ -266,14 +275,27 @@ i.spesh {
   br {
     display: none;
   } 
+  .card {
+    .card-content {
+      .click-to-top {
+        margin-top: -30px;
+      }
+      .card-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 210px;
+      }
+    }
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 812px) and (min-width: 375px) {
   nav {
-    .nav-btn {
+    .nav-btn, ul a {
       height: 56px;
-      font-size: 1rem;
+      font-size: 16px;
+      line-height: 56px;
     }
     .brand-logo {
       left: 7%;
@@ -350,6 +372,10 @@ i.spesh {
 }
 @media only screen and (max-width: 1366px) and (min-width: 768px) {
   nav {
+    .nav-btn, ul a {
+      height: 66px;
+      line-height: 66px;
+    }
     .brand-logo {
       left: 7%;
       #text {
@@ -365,5 +391,17 @@ i.spesh {
   }
   .login_form.signup {
     margin: 10vh auto 0;
+  }
+  .card {
+    .card-content {
+      .click-to-top {
+        float: inherit;
+        margin-top: 10px;
+        position: inherit;
+        img {
+          width: 30px;
+        }
+      }
+    }
   }
 }

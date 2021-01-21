@@ -4,9 +4,7 @@ html, body {
   height: 100%; }
 
 main {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column; }
+  min-height: 100vh; }
 
 h1 {
   color: #214012;
@@ -47,6 +45,8 @@ nav {
       margin-right: 10px; }
   nav ul a:hover {
     background-color: #fff; }
+  nav ul li {
+    font-size: 16px; }
   nav .nav-btn {
     -webkit-transition: background-color .3s;
     transition: background-color .3s;
@@ -56,7 +56,9 @@ nav {
     cursor: pointer;
     transition: background-color .3s;
     height: 64px;
-    font-size: 16px; }
+    font-size: 16px;
+    line-height: 64px;
+    font: 110% "Montserrat Alternates", sans-serif; }
   nav .btn-flat:focus, nav .btn-flat:hover {
     background-color: #fff;
     color: #F9B79D; }
@@ -89,6 +91,9 @@ nav {
   margin: 10vh auto; }
   .login_form .invalid {
     border-color: red; }
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea, input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #5A9C3F; }
 
 .intro {
   text-align: center; }
@@ -215,7 +220,9 @@ i.spesh {
 @media only screen and (max-width: 568px) and (min-width: 320px) {
   nav .nav-btn {
     height: 56px;
-    font-size: 1rem; }
+    font-size: 14px; }
+  nav ul a {
+    font-size: 14px; }
   nav .brand-logo {
     display: none; }
   h1 {
@@ -223,13 +230,20 @@ i.spesh {
   p {
     font-size: 14px; }
   br {
-    display: none; } }
+    display: none; }
+  .card .card-content .click-to-top {
+    margin-top: -30px; }
+  .card .card-content .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 210px; } }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (max-width: 812px) and (min-width: 375px) {
-  nav .nav-btn {
+  nav .nav-btn, nav ul a {
     height: 56px;
-    font-size: 1rem; }
+    font-size: 16px;
+    line-height: 56px; }
   nav .brand-logo {
     left: 7%;
     font-size: 0;
@@ -284,6 +298,9 @@ i.spesh {
       z-index: 1; } }
 
 @media only screen and (max-width: 1366px) and (min-width: 768px) {
+  nav .nav-btn, nav ul a {
+    height: 66px;
+    line-height: 66px; }
   nav .brand-logo {
     left: 7%; }
     nav .brand-logo #text {
@@ -293,4 +310,10 @@ i.spesh {
   .login_form {
     margin: 25vh auto 0; }
   .login_form.signup {
-    margin: 10vh auto 0; } }
+    margin: 10vh auto 0; }
+  .card .card-content .click-to-top {
+    float: inherit;
+    margin-top: 10px;
+    position: inherit; }
+    .card .card-content .click-to-top img {
+      width: 30px; } }
