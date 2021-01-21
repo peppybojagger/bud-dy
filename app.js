@@ -20,8 +20,8 @@ const plantRoutes = require('./routes/plant');
 const appRoutes = require('./routes/app');
 
 const app = express();
-
-const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://peppybojagger:ApolloMargot420@cluster0.d1sck.mongodb.net/Bud-dy?retryWrites=true&w=majority`;
+// const MONGODB_URI = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.d1sck.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
 const store = new MongoDBStore({
     uri: MONGODB_URI,
     collection: 'sessions'
