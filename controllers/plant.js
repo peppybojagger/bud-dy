@@ -134,7 +134,7 @@ exports.postWaterAddDeletePlant = (req, res, next) => {
             const year = full.getFullYear();
             const month = full.getMonth()+1;
             const day = full.getDate();
-            const today = `${year}-${month}-${day}`;
+            const today = `${month}-${day}-${year}`;
             plant.lastWatered = today.toString();
             return plant.save();
         }).then(result => {

@@ -82,26 +82,12 @@ nav {
   background-color: $hover-color;
   color: #fff;
 }
-.input-field {
-  height: 50px;
-}
-.input-field>label.picupload {
-  position: absolute;
-  top: -30px;
-  font-size: 14px;
-}
 .file-field {
   .btn {
     margin-top: 10px;
     height: 2rem;
     line-height: 2rem;
   }
-}
-input:not([type]), input[type=file], input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
-  font-family: $font-stack;
-  border-bottom: 1px solid$hover-color;
-  -webkit-box-shadow: 0 1px 0 0$hover-color;
-  box-shadow: 0 1px 0 0$hover-color;
 }
 .main_bg_img {
   background-image: url('../images/index_bg.jpg');
@@ -130,9 +116,6 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
     width: 100px;
     height: auto;
   }
-  .input-field>label {
-    font-size: 16px;
-  }
 }
 .card {
   .card-content {
@@ -149,9 +132,10 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
       .btn {
         background-color: transparent;
         border-radius: 0;
-        height: 0;
+        height: fit-content;
         line-height: 0;
         padding: 0;
+        box-shadow: none;
       }
     }
     .click-to-top img{
@@ -353,12 +337,13 @@ i.spesh {
     height: auto;
   }
   .card .card-content .click-to-top {
-    float: none;
+    float: right;
     max-width: 60px;
-    margin-top: 0px;
+    margin-top: -55px;
     position: relative;
+    box-shadow: none;
     img {
-      width: 20px;
+      width: 40px;
       z-index: 1;
     }
   }

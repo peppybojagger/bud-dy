@@ -69,24 +69,10 @@ nav {
   background-color: #5A9C3F;
   color: #fff; }
 
-.input-field {
-  height: 50px; }
-
-.input-field > label.picupload {
-  position: absolute;
-  top: -30px;
-  font-size: 14px; }
-
 .file-field .btn {
   margin-top: 10px;
   height: 2rem;
   line-height: 2rem; }
-
-input:not([type]), input[type=file], input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
-  font-family: "Montserrat Alternates", sans-serif;
-  border-bottom: 1px solid #5A9C3F;
-  -webkit-box-shadow: 0 1px 0 0 #5A9C3F;
-  box-shadow: 0 1px 0 0 #5A9C3F; }
 
 .main_bg_img {
   background-image: url("../images/index_bg.jpg");
@@ -112,8 +98,6 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
   .intro .monstera {
     width: 100px;
     height: auto; }
-  .intro .input-field > label {
-    font-size: 16px; }
 
 .card .card-content {
   padding: 10px; }
@@ -128,9 +112,10 @@ input:not([type]), input[type=file], input[type=text]:not(.browser-default), inp
     .card .card-content .click-to-top .btn {
       background-color: transparent;
       border-radius: 0;
-      height: 0;
+      height: fit-content;
       line-height: 0;
-      padding: 0; }
+      padding: 0;
+      box-shadow: none; }
   .card .card-content .click-to-top img {
     -webkit-transition: all 0.8s;
     moz-transition: all 0.8s;
@@ -289,12 +274,13 @@ i.spesh {
     margin: 20px auto;
     height: auto; }
   .card .card-content .click-to-top {
-    float: none;
+    float: right;
     max-width: 60px;
-    margin-top: 0px;
-    position: relative; }
+    margin-top: -55px;
+    position: relative;
+    box-shadow: none; }
     .card .card-content .click-to-top img {
-      width: 20px;
+      width: 40px;
       z-index: 1; } }
 
 @media only screen and (max-width: 1366px) and (min-width: 768px) {

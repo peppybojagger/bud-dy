@@ -12,7 +12,7 @@
                         <input type="text" name="common_name" value="<%= plant.common_name %>">
                     </div>
                     <div class="file-field input-field col m4 s12">
-                        <label class="picupload" for="image">Custom Image</label>
+                        <label class="picupload active" for="image">Custom Image</label>
                         <div class="btn">
                           <span>File</span>
                           <input type="file" name="image">
@@ -23,11 +23,11 @@
                       </div>
                     <div class="input-field col m4 s12">
                         <% if (plant.lastWatered) { %>
-                            <label>Last Watered</label>
+                            <label class="active" for="watered">Last Watered</label>
                             <input type="date" name="watered" value="<%= plant.lastWatered %>">
                         <% } else { %>
-                            <label>Last Watered</label>
-                            <input type="date" name="watered" placeholder=" ">
+                            <label class="active" for="watered">Last Watered</label>
+                            <input type="date" name="watered">
                         <% } %>
                     </div>
                     <div class="col s12">
